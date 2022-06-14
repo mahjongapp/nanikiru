@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import { VStack, Box, Stack } from '@chakra-ui/react'
+import { VStack, Stack } from '@chakra-ui/react'
 import Header from '../components/header'
 import PostPreview from '../components/PostPreview'
 
