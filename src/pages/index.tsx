@@ -5,9 +5,9 @@ import PostPreview from '../components/PostPreview'
 
 const Home: NextPage = () => {
   return (
-    <Stack>
+    <Stack spacing={8}>
       <Header></Header>
-      <VStack>
+      <VStack spacing={8}>
         <PostPreview title='hoge'></PostPreview>
         <PostPreview title='age'></PostPreview>
         <PostPreview title='uge'></PostPreview>
