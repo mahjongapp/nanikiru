@@ -34,7 +34,7 @@ const NavLink = ({ children }: { children: ReactNode }) => (
   </Link>
 );
 
-export default function Simple() {
+export default function Header() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
