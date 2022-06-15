@@ -16,6 +16,7 @@ import {
   useColorModeValue,
   Stack,
 } from '@chakra-ui/react'
+import LinkButton from './LinkButton'
 import Link from './ChakraNextLink'
 import { HamburgerIcon, CloseIcon, AddIcon } from '@chakra-ui/icons'
 
@@ -38,7 +39,11 @@ const NavLink = ({ children }: { children: ReactNode }) => (
   </Link>
 )
 
-export default function Header() {
+type Props = {
+  isPostEdit?: boolean
+}
+
+export default function Header(props: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   return (
@@ -66,15 +71,18 @@ export default function Header() {
             </HStack>
           </HStack>
           <Flex alignItems={'center'}>
-            <Button
-              variant={'solid'}
-              colorScheme={'blackAlpha'}
-              size={'sm'}
-              mr={4}
-              leftIcon={<AddIcon />}
-            >
-              POST
-            </Button>
+            {!props?.isPostEdit && (
+              <LinkButton
+                href='/postedit'
+                variant={'solid'}
+                colorScheme={'blackAlpha'}
+                size={'sm'}
+                mr={2}
+                leftIcon={<AddIcon />}
+              >
+                POST
+              </LinkButton>
+            )}
             <Menu>
               <MenuButton as={Button} rounded={'full'} variant={'link'} cursor={'pointer'} minW={0}>
                 <Avatar size={'sm'} />
