@@ -1,5 +1,6 @@
 import { ReactNode } from 'react'
 import {
+  Avatar,
   Box,
   Flex,
   HStack,
@@ -42,7 +43,7 @@ export default function Header() {
 
   return (
     <>
-      <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
+      <Box boxShadow='md' bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <IconButton
             size={'md'}
@@ -53,9 +54,11 @@ export default function Header() {
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems={'center'}>
-            <Box>
-              <Image src={logo.src} alt='nanikiru' w={120} />
-            </Box>
+            <Link href={'/'}>
+              <Box mr={-6}>
+                <Image src={logo.src} alt='nanikiru' w={120} />
+              </Box>
+            </Link>
             <HStack as={'nav'} spacing={4} display={{ base: 'none', md: 'flex' }}>
               {Links.map((link) => (
                 <NavLink key={link}>{link}</NavLink>
@@ -67,24 +70,20 @@ export default function Header() {
               variant={'solid'}
               colorScheme={'blackAlpha'}
               size={'sm'}
-              mr={2}
+              mr={4}
               leftIcon={<AddIcon />}
             >
               POST
             </Button>
             <Menu>
-              <MenuButton
-                as={Button}
-                rounded={'full'}
-                variant={'link'}
-                cursor={'pointer'}
-                minW={0}
-              ></MenuButton>
+              <MenuButton as={Button} rounded={'full'} variant={'link'} cursor={'pointer'} minW={0}>
+                <Avatar size={'sm'} />
+              </MenuButton>
               <MenuList>
-                <MenuItem>Link 1</MenuItem>
-                <MenuItem>Link 2</MenuItem>
+                <MenuItem>Profile</MenuItem>
+                <MenuItem>Setting</MenuItem>
                 <MenuDivider />
-                <MenuItem>Link 3</MenuItem>
+                <MenuItem>Logout</MenuItem>
               </MenuList>
             </Menu>
           </Flex>
