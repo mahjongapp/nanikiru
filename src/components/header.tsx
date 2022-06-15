@@ -3,6 +3,7 @@ import {
   Box,
   Flex,
   HStack,
+  Image,
   Link,
   IconButton,
   Button,
@@ -15,7 +16,9 @@ import {
   useColorModeValue,
   Stack,
 } from '@chakra-ui/react'
-import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons'
+import { HamburgerIcon, CloseIcon, AddIcon } from '@chakra-ui/icons'
+
+import logo from '../assets/images/logo.png'
 
 const Links = ['MANZU', 'PINZU', 'SOUZU']
 
@@ -43,13 +46,16 @@ export default function Header() {
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <IconButton
             size={'md'}
+            mr={14}
             icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
             aria-label={'Open Menu'}
             display={{ md: 'none' }}
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems={'center'}>
-            <Box>Logo</Box>
+            <Box>
+              <Image src={logo.src} alt='nanikiru' w={120} />
+            </Box>
             <HStack as={'nav'} spacing={4} display={{ base: 'none', md: 'flex' }}>
               {Links.map((link) => (
                 <NavLink key={link}>{link}</NavLink>
@@ -57,6 +63,15 @@ export default function Header() {
             </HStack>
           </HStack>
           <Flex alignItems={'center'}>
+            <Button
+              variant={'solid'}
+              colorScheme={'blackAlpha'}
+              size={'sm'}
+              mr={2}
+              leftIcon={<AddIcon />}
+            >
+              POST
+            </Button>
             <Menu>
               <MenuButton
                 as={Button}
