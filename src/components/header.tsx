@@ -4,7 +4,6 @@ import {
   Flex,
   HStack,
   Image,
-  Link,
   IconButton,
   Button,
   Menu,
@@ -16,6 +15,7 @@ import {
   useColorModeValue,
   Stack,
 } from '@chakra-ui/react'
+import Link from './ChakraNextLink'
 import { HamburgerIcon, CloseIcon, AddIcon } from '@chakra-ui/icons'
 
 import logo from '../assets/images/logo.png'
