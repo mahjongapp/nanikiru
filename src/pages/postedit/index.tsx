@@ -1,12 +1,17 @@
-import { Box, Stack } from '@chakra-ui/react'
+import { Button, FormControl, FormLabel, Input, Stack, Textarea } from '@chakra-ui/react'
 import Header from '../../components/header'
 
 export default function PostEdit() {
   return (
-    // eslint-disable-next-line react/jsx-no-undef
     <Stack>
       <Header isPostEdit></Header>
-      <Box>投稿ページだよ</Box>
+      <FormControl>
+        <FormLabel>タイトル</FormLabel>
+        <Input></Input>
+        <FormLabel>本文</FormLabel>
+        <Textarea></Textarea>
+        <Button>送信</Button>
+      </FormControl>
     </Stack>
   )
 }
