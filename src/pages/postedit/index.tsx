@@ -1,4 +1,4 @@
-import { Button, FormControl, FormLabel, Input, Stack } from '@chakra-ui/react'
+import { Button, FormControl, FormLabel, Input, Stack, Textarea } from '@chakra-ui/react'
 import Header from '../../components/header'
 
 export default function PostEdit() {
@@ -9,7 +9,7 @@ export default function PostEdit() {
         <FormLabel>タイトル</FormLabel>
         <Input></Input>
         <FormLabel>本文</FormLabel>
-        <Input></Input>
+        <Textarea></Textarea>
         <Button>送信</Button>
       </FormControl>
     </Stack>
