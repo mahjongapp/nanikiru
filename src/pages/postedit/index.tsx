@@ -1,9 +1,9 @@
 import { Button, FormControl, FormLabel, Input, Stack, Textarea } from '@chakra-ui/react'
 import Header from '../../components/header'
 import { useForm } from 'react-hook-form'
-import { CreatePost } from '../../lib/mutations'
-import { useGQLMutation } from '../../lib/useGQL'
 import { useRouter } from 'next/router'
+import { useMutation } from 'react-query'
+import client from '../../lib/client'
 
 type Inputs = {
   title: string
@@ -13,7 +13,7 @@ type Inputs = {
 export default function PostEdit() {
   const router = useRouter()
   const { handleSubmit, register } = useForm<Inputs>()
-  const { mutate } = useGQLMutation(CreatePost)
+  const { mutate } = useMutation((data: Inputs) => client.CreatePost(data))
 
   const onSubmit = async (data: Inputs) =>
     mutate(data, {

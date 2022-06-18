@@ -49,7 +49,7 @@ export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 
 export interface NexusGenFieldTypes {
   Mutation: { // field return type
-    createTask: NexusGenRootTypes['Post']; // Post!
+    createPost: NexusGenRootTypes['Post']; // Post!
   }
   Post: { // field return type
     body: string; // String!
@@ -64,7 +64,7 @@ export interface NexusGenFieldTypes {
 
 export interface NexusGenFieldTypeNames {
   Mutation: { // field return type name
-    createTask: 'Post'
+    createPost: 'Post'
   }
   Post: { // field return type name
     body: 'String'
@@ -79,7 +79,7 @@ export interface NexusGenFieldTypeNames {
 
 export interface NexusGenArgTypes {
   Mutation: {
-    createTask: { // args
+    createPost: { // args
       body: string; // String!
       title: string; // String!
     }

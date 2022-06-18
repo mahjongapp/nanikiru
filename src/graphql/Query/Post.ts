@@ -24,7 +24,7 @@ export const PostsQuery = extendType({
 export const CreatePostMutation = extendType({
   type: 'Mutation',
   definition(t) {
-    t.nonNull.field('createTask', {
+    t.nonNull.field('createPost', {
       type: 'Post',
       args: {
         title: nonNull(stringArg()),
