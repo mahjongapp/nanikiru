@@ -3,7 +3,7 @@
 
 
 type Mutation {
-  createTask(body: String!, title: String!): Post!
+  createPost(body: String!, title: String!): Post!
 }
 
 type Post {
