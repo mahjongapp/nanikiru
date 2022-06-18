@@ -60,7 +60,7 @@ export default function Header(props: Props) {
           />
           <HStack spacing={8} alignItems={'center'}>
             <Link href={'/'}>
-              <Box mr={-6}>
+              <Box mr={props?.isPostEdit ? 16 : -8}>
                 <Image src={logo.src} alt='nanikiru' w={120} />
               </Box>
             </Link>
