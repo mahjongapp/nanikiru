@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "migrate:deploy": "npx prisma migrate deploy",
-    "build": "npm-run-all migrate:deploy build-app",
+    "generate:prisma": "npx prisma generate",
+    "build": "npm-run-all migrate:deploy generate:prisma build-app",
     "start": "next start",
     "lint": "next lint",
     "build-app": "next build"
