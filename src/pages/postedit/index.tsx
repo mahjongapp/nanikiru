@@ -60,13 +60,17 @@ export default function PostEdit() {
                   choiceIndex={index}
                   removeChoice={removeChoice}
                 />
-                <Button onClick={addChoice} type={'button'}>
-                  選択肢を追加
-                </Button>
               </Box>
             )
           })}
-          <Button type='submit'>投稿</Button>
+          <Box display='flex' justifyContent='center'>
+            <Button onClick={addChoice} type={'button'} mx={2} my={2}>
+              選択肢を追加
+            </Button>
+            <Button type='submit' mx={2} my={2}>
+              投稿
+            </Button>
+          </Box>
         </FormControl>
       </form>
     </Stack>
@@ -84,9 +88,11 @@ const ChoiceItem = ({ register, choiceIndex, removeChoice }: Props) => {
     <Box>
       <FormLabel>選択肢{choiceIndex + 1}</FormLabel>
       <Input {...register(`choices.${choiceIndex}.name` as const)}></Input>
-      <Button type={'button'} onClick={() => removeChoice(choiceIndex)}>
-        削除
-      </Button>
+      <Box display='flex' justifyContent='end' mx={4}>
+        <Button type={'button'} onClick={() => removeChoice(choiceIndex)}>
+          選択肢を削除
+        </Button>
+      </Box>
     </Box>
   )
 }
