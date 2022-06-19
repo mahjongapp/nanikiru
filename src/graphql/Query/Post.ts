@@ -1,4 +1,4 @@
-import { objectType, extendType, stringArg, nonNull } from 'nexus'
+import { objectType, extendType, stringArg, nonNull, arg, list, extendInputType } from 'nexus'
 
 export const Post = objectType({
   name: 'Post',
@@ -6,6 +6,12 @@ export const Post = objectType({
     t.nonNull.int('id')
     t.nonNull.string('title')
     t.nonNull.string('body')
+    t.list.field('choices', {
+      type: 'Choice',
+      resolve(parent, _args, ctx) {
+        return ctx.prisma.post.findUnique({ where: { id: parent.id } }).choices()
+      },
+    })
   },
 })
 
@@ -29,15 +35,26 @@ export const CreatePostMutation = extendType({
       args: {
         title: nonNull(stringArg()),
         body: nonNull(stringArg()),
+        choices: nonNull(list(nonNull('choiceInput'))),
       },
       resolve(_parent, args, ctx) {
         return ctx.prisma.post.create({
           data: {
             title: args.title,
             body: args.body,
+            choices: {
+              create: args.choices,
+            },
           },
         })
       },
     })
+  },
+})
+
+export const choiceInput = extendInputType({
+  type: 'choiceInput',
+  definition(t) {
+    t.nonNull.string('name')
   },
 })

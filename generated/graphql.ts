@@ -15,6 +15,13 @@ export type Scalars = {
   Float: number;
 };
 
+export type Choice = {
+  __typename?: 'Choice';
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  post?: Maybe<Post>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createPost: Post;
@@ -23,12 +30,14 @@ export type Mutation = {
 
 export type MutationCreatePostArgs = {
   body: Scalars['String'];
+  choices: Array<ChoiceInput>;
   title: Scalars['String'];
 };
 
 export type Post = {
   __typename?: 'Post';
   body: Scalars['String'];
+  choices?: Maybe<Array<Maybe<Choice>>>;
   id: Scalars['Int'];
   title: Scalars['String'];
 };
@@ -39,13 +48,18 @@ export type Query = {
   posts: Array<Maybe<Post>>;
 };
 
+export type ChoiceInput = {
+  name: Scalars['String'];
+};
+
 export type CreatePostMutationVariables = Exact<{
   title: Scalars['String'];
   body: Scalars['String'];
+  choices: Array<ChoiceInput> | ChoiceInput;
 }>;
 
 
-export type CreatePostMutation = { __typename?: 'Mutation', createPost: { __typename?: 'Post', id: number, title: string, body: string } };
+export type CreatePostMutation = { __typename?: 'Mutation', createPost: { __typename?: 'Post', id: number, title: string, body: string, choices?: Array<{ __typename?: 'Choice', id: number, name: string } | null> | null } };
 
 export type GetPostsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -54,11 +68,15 @@ export type GetPostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 
 
 
 export const CreatePostDocument = gql`
-    mutation CreatePost($title: String!, $body: String!) {
-  createPost(title: $title, body: $body) {
+    mutation CreatePost($title: String!, $body: String!, $choices: [choiceInput!]!) {
+  createPost(title: $title, body: $body, choices: $choices) {
     id
     title
     body
+    choices {
+      id
+      name
+    }
   }
 }
     `;

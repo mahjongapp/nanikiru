@@ -2,12 +2,19 @@
 ### Do not make changes to this file directly
 
 
+type Choice {
+  id: Int!
+  name: String!
+  post: Post
+}
+
 type Mutation {
-  createPost(body: String!, title: String!): Post!
+  createPost(body: String!, choices: [choiceInput!]!, title: String!): Post!
 }
 
 type Post {
   body: String!
+  choices: [Choice]
   id: Int!
   title: String!
 }
@@ -15,4 +22,8 @@ type Post {
 type Query {
   hello: String
   posts: [Post]!
+}
+
+input choiceInput {
+  name: String!
 }

@@ -14,6 +14,9 @@ declare global {
 }
 
 export interface NexusGenInputs {
+  choiceInput: { // input type
+    name: string; // String!
+  }
 }
 
 export interface NexusGenEnums {
@@ -28,6 +31,10 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  Choice: { // root type
+    id: number; // Int!
+    name: string; // String!
+  }
   Mutation: {};
   Post: { // root type
     body: string; // String!
@@ -48,11 +55,17 @@ export type NexusGenRootTypes = NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 
 export interface NexusGenFieldTypes {
+  Choice: { // field return type
+    id: number; // Int!
+    name: string; // String!
+    post: NexusGenRootTypes['Post'] | null; // Post
+  }
   Mutation: { // field return type
     createPost: NexusGenRootTypes['Post']; // Post!
   }
   Post: { // field return type
     body: string; // String!
+    choices: Array<NexusGenRootTypes['Choice'] | null> | null; // [Choice]
     id: number; // Int!
     title: string; // String!
   }
@@ -63,11 +76,17 @@ export interface NexusGenFieldTypes {
 }
 
 export interface NexusGenFieldTypeNames {
+  Choice: { // field return type name
+    id: 'Int'
+    name: 'String'
+    post: 'Post'
+  }
   Mutation: { // field return type name
     createPost: 'Post'
   }
   Post: { // field return type name
     body: 'String'
+    choices: 'Choice'
     id: 'Int'
     title: 'String'
   }
@@ -81,6 +100,7 @@ export interface NexusGenArgTypes {
   Mutation: {
     createPost: { // args
       body: string; // String!
+      choices: NexusGenInputs['choiceInput'][]; // [choiceInput!]!
       title: string; // String!
     }
   }
@@ -94,7 +114,7 @@ export interface NexusGenTypeInterfaces {
 
 export type NexusGenObjectNames = keyof NexusGenObjects;
 
-export type NexusGenInputNames = never;
+export type NexusGenInputNames = keyof NexusGenInputs;
 
 export type NexusGenEnumNames = never;
 
