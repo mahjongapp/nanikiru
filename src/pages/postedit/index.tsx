@@ -60,12 +60,12 @@ export default function PostEdit() {
                   choiceIndex={index}
                   removeChoice={removeChoice}
                 />
-                <Button onClick={addChoice} type={'button'}>
-                  選択肢を追加
-                </Button>
               </Box>
             )
           })}
+          <Button onClick={addChoice} type={'button'}>
+            選択肢を追加
+          </Button>
           <Button type='submit'>投稿</Button>
         </FormControl>
       </form>
