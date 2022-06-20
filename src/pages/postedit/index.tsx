@@ -1,9 +1,21 @@
-import { Box, Button, FormControl, FormLabel, Input, Stack, Textarea } from '@chakra-ui/react'
+import {
+  useToast,
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  Stack,
+  Textarea,
+  ToastId,
+  Progress,
+} from '@chakra-ui/react'
 import Header from '../../components/header'
 import { useForm, useFieldArray, UseFormRegister } from 'react-hook-form'
 import { useRouter } from 'next/router'
 import { useMutation } from 'react-query'
 import client from '../../lib/client'
+import { useRef } from 'react'
 
 type Inputs = {
   title: string
@@ -16,6 +28,8 @@ type Choice = {
 }
 
 export default function PostEdit() {
+  const toast = useToast()
+  const toastIdRef = useRef<ToastId | null>(null)
   const router = useRouter()
   const { handleSubmit, register, control } = useForm<Inputs>({
     defaultValues: {
@@ -26,13 +40,22 @@ export default function PostEdit() {
     control,
     name: 'choices',
   })
-  const { mutate } = useMutation((data: Inputs) => client.CreatePost(data))
+  const { mutate, isLoading, isSuccess } = useMutation((data: Inputs) => client.CreatePost(data))
 
   const onSubmit = async (data: Inputs) =>
     mutate(data, {
       onSuccess: (res) => {
         console.log(res)
-        router.push('/')
+        toastIdRef.current = toast({
+          title: '送信完了',
+          status: 'success',
+          position: 'top',
+          isClosable: false,
+        })
+        setTimeout(() => {
+          router.push('/')
+          toastIdRef.current !== null && toast.close(toastIdRef.current)
+        }, 1000)
       },
     })
   const addChoice = () => {
@@ -44,6 +67,7 @@ export default function PostEdit() {
 
   return (
     <Stack>
+      {isLoading && <Progress size='xs' isIndeterminate />}
       <Header isPostEdit></Header>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormControl>
@@ -66,7 +90,9 @@ export default function PostEdit() {
           <Button onClick={addChoice} type={'button'}>
             選択肢を追加
           </Button>
-          <Button type='submit'>投稿</Button>
+          <Button type='submit' disabled={isLoading || isSuccess}>
+            投稿
+          </Button>
         </FormControl>
       </form>
     </Stack>
