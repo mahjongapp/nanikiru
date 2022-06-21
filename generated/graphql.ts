@@ -64,7 +64,7 @@ export type CreatePostMutation = { __typename?: 'Mutation', createPost: { __type
 export type GetPostsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetPostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', id: number, title: string, body: string } | null> };
+export type GetPostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', id: number, title: string, body: string, choices?: Array<{ __typename?: 'Choice', id: number, name: string } | null> | null } | null> };
 
 
 export const CreatePostDocument = gql`
@@ -86,6 +86,10 @@ export const GetPostsDocument = gql`
     id
     title
     body
+    choices {
+      id
+      name
+    }
   }
 }
     `;
