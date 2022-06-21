@@ -80,7 +80,7 @@ export default function Header(props: Props) {
                 mr={2}
                 leftIcon={<AddIcon />}
               >
-                POST
+                投稿
               </LinkButton>
             )}
             <Menu>
