@@ -4,8 +4,10 @@ import {
   Button,
   FormControl,
   FormLabel,
+  HStack,
   Input,
   Stack,
+  Spacer,
   Textarea,
   ToastId,
   Progress,
@@ -71,10 +73,19 @@ export default function PostEdit() {
       <Header isPostEdit></Header>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormControl>
-          <FormLabel htmlFor='title'>タイトル</FormLabel>
-          <Input id='title' {...register('title')} />
-          <FormLabel htmlFor='body'>本文</FormLabel>
-          <Textarea id='body' {...register('body')} />
+          <FormLabel mx={4} htmlFor='title'>
+            タイトル
+          </FormLabel>
+          <Box px={8} mb={2}>
+            <Input id='title' {...register('title')} />
+          </Box>
+
+          <FormLabel mx={4} htmlFor='body'>
+            本文
+          </FormLabel>
+          <Box px={8} mb={4}>
+            <Textarea id='body' {...register('body')} />
+          </Box>
           {fields.map((field, index) => {
             return (
               <Box key={index}>
@@ -110,13 +121,18 @@ type Props = {
 const ChoiceItem = ({ register, choiceIndex, removeChoice }: Props) => {
   return (
     <Box>
-      <FormLabel>選択肢{choiceIndex + 1}</FormLabel>
-      <Input {...register(`choices.${choiceIndex}.name` as const)}></Input>
-      <Box display='flex' justifyContent='end' mx={4}>
-        <Button type={'button'} onClick={() => removeChoice(choiceIndex)}>
-          選択肢を削除
-        </Button>
-      </Box>
+      <FormLabel mx={4}>・選択肢{choiceIndex + 1}</FormLabel>
+      <HStack spacing={1}>
+        <Box pl={16} w='full'>
+          <Input {...register(`choices.${choiceIndex}.name` as const)}></Input>
+        </Box>
+        <Spacer />
+        <Box>
+          <Button mx={4} mr={16} type={'button'} onClick={() => removeChoice(choiceIndex)}>
+            選択肢を削除
+          </Button>
+        </Box>
+      </HStack>
     </Box>
   )
 }
