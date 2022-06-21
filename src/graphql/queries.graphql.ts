@@ -6,6 +6,10 @@ export const GetPosts = gql`
       id
       title
       body
+      choices {
+        id
+        name
+      }
     }
   }
 `
