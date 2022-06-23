@@ -6,6 +6,7 @@ export const Post = objectType({
     t.nonNull.int('id')
     t.nonNull.string('title')
     t.nonNull.string('body')
+    t.nonNull.string('imgurl')
     t.list.field('choices', {
       type: 'Choice',
       resolve(parent, _args, ctx) {
@@ -35,6 +36,7 @@ export const CreatePostMutation = extendType({
       args: {
         title: nonNull(stringArg()),
         body: nonNull(stringArg()),
+        imgurl: nonNull(stringArg()),
         choices: nonNull(list(nonNull('choiceInput'))),
       },
       resolve(_parent, args, ctx) {
@@ -42,6 +44,7 @@ export const CreatePostMutation = extendType({
           data: {
             title: args.title,
             body: args.body,
+            imgurl: args.imgurl,
             choices: {
               create: args.choices,
             },

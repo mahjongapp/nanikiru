@@ -17,13 +17,22 @@ import { useForm, useFieldArray, UseFormRegister } from 'react-hook-form'
 import { useRouter } from 'next/router'
 import { useMutation } from 'react-query'
 import client from '../../lib/client'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { CloseIcon, AddIcon, CheckIcon } from '@chakra-ui/icons'
+import Image from 'next/image'
+import { postImage } from '../../lib/upload'
 
 type Inputs = {
   title: string
   body: string
   choices: Choice[]
+}
+
+type CreatePostData = {
+  title: string
+  body: string
+  choices: Choice[]
+  imgurl: string
 }
 
 type Choice = {
@@ -34,33 +43,42 @@ export default function PostEdit() {
   const toast = useToast()
   const toastIdRef = useRef<ToastId | null>(null)
   const router = useRouter()
+  const [imgurl, setImgurl] = useState('')
   const { handleSubmit, register, control } = useForm<Inputs>({
     defaultValues: {
       choices: [{ name: '' }],
     },
   })
+  const [file, setFile] = useState<File | null>(null)
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'choices',
   })
-  const { mutate, isLoading, isSuccess } = useMutation((data: Inputs) => client.CreatePost(data))
+  const { mutate, isLoading, isSuccess } = useMutation((data: CreatePostData) =>
+    client.CreatePost(data),
+  )
 
-  const onSubmit = async (data: Inputs) =>
-    mutate(data, {
-      onSuccess: (res) => {
-        console.log(res)
-        toastIdRef.current = toast({
-          title: '送信完了',
-          status: 'success',
-          position: 'top',
-          isClosable: false,
-        })
-        setTimeout(() => {
-          router.push('/')
-          toastIdRef.current !== null && toast.close(toastIdRef.current)
-        }, 1000)
+  const onSubmit = async (data: Inputs) => {
+    const result = await postImage(file)
+    mutate(
+      { ...data, imgurl: result },
+      {
+        onSuccess: (res) => {
+          console.log(res)
+          toastIdRef.current = toast({
+            title: '送信完了',
+            status: 'success',
+            position: 'top',
+            isClosable: false,
+          })
+          setTimeout(() => {
+            router.push('/')
+            toastIdRef.current !== null && toast.close(toastIdRef.current)
+          }, 1000)
+        },
       },
-    })
+    )
+  }
   const addChoice = () => {
     append({ name: '' })
   }
@@ -85,7 +103,23 @@ export default function PostEdit() {
               {...register('title')}
             />
           </Box>
-
+          <input
+            required
+            type='file'
+            onChange={(e) => {
+              if (e.target.files && e.target.files[0]) {
+                const file_ = e.target.files[0]
+                setFile(file_)
+                const reader = new FileReader()
+                reader.onload = (e: any) => {
+                  setImgurl(e.target.result)
+                }
+                reader.readAsDataURL(file_)
+              }
+            }}
+            accept='image/*'
+          />
+          {imgurl !== '' && <Image width={600} height={450} src={imgurl} objectFit='contain' />}
           <FormLabel mx={4} htmlFor='body'>
             本文
           </FormLabel>

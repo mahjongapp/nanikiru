@@ -9,13 +9,14 @@ type Choice {
 }
 
 type Mutation {
-  createPost(body: String!, choices: [choiceInput!]!, title: String!): Post!
+  createPost(body: String!, choices: [choiceInput!]!, imgurl: String!, title: String!): Post!
 }
 
 type Post {
   body: String!
   choices: [Choice]
   id: Int!
+  imgurl: String!
   title: String!
 }
 
