@@ -45,6 +45,7 @@ export const PostQuery = extendType({
       args: {
         id: nonNull(intArg()),
       },
+      // @ts-ignore
       resolve(_parent, args, ctx) {
         return ctx.prisma.post.findUnique({
           where: {
