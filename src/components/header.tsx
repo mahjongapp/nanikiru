@@ -60,9 +60,16 @@ export default function Header(props: Props) {
           />
           <HStack spacing={8} alignItems={'center'}>
             <Link href={'/'}>
-              <Box mr={-8}>
-                <Image src={logo.src} alt='nanikiru' w={120} />
-              </Box>
+              {!props?.isPostEdit && (
+                <Box mr={{ base: -4, md: 0 }}>
+                  <Image src={logo.src} alt='nanikiru' w={120} />
+                </Box>
+              )}
+              {props?.isPostEdit && (
+                <Box mr={{ base: 16, md: 0 }}>
+                  <Image src={logo.src} alt='nanikiru' w={120} />
+                </Box>
+              )}
             </Link>
             <HStack as={'nav'} spacing={4} display={{ base: 'none', md: 'flex' }}>
               {Links.map((link) => (
@@ -96,7 +103,6 @@ export default function Header(props: Props) {
             </Menu>
           </Flex>
         </Flex>
-
         {isOpen ? (
           <Box pb={4} display={{ md: 'none' }}>
             <Stack as={'nav'} spacing={4}>
