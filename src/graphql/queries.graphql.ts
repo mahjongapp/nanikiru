@@ -14,3 +14,18 @@ export const GetPosts = gql`
     }
   }
 `
+
+export const GetPostById = gql`
+  query GetPostByID($postId: Int!) {
+    post(id: $postId) {
+      id
+      title
+      body
+      imgurl
+      choices {
+        id
+        name
+      }
+    }
+  }
+`

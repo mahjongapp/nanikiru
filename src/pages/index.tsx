@@ -7,7 +7,6 @@ import { useQuery } from 'react-query'
 
 const Home: NextPage = () => {
   const { data, isLoading, isError } = useQuery('getPosts', () => client.GetPosts())
-  console.log(data)
   return (
     <Stack spacing={8}>
       <Header></Header>
@@ -15,6 +14,7 @@ const Home: NextPage = () => {
         {data?.posts.map((post, index) => (
           <PostPreview
             key={index}
+            id={post?.id}
             title={post?.title}
             body={post?.body}
             choices={post?.choices}

@@ -1,4 +1,13 @@
-import { objectType, extendType, stringArg, nonNull, arg, list, extendInputType } from 'nexus'
+import {
+  objectType,
+  extendType,
+  stringArg,
+  nonNull,
+  arg,
+  list,
+  extendInputType,
+  intArg,
+} from 'nexus'
 
 export const Post = objectType({
   name: 'Post',
@@ -23,6 +32,25 @@ export const PostsQuery = extendType({
       type: 'Post',
       resolve(_parent, _args, ctx) {
         return ctx.prisma.post.findMany()
+      },
+    })
+  },
+})
+
+export const PostQuery = extendType({
+  type: 'Query',
+  definition(t) {
+    t.nonNull.field('post', {
+      type: 'Post',
+      args: {
+        id: nonNull(intArg()),
+      },
+      resolve(_parent, args, ctx) {
+        return ctx.prisma.post.findUnique({
+          where: {
+            id: args.id,
+          },
+        })
       },
     })
   },
