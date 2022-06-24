@@ -16,6 +16,7 @@ model Post {
     updatedAt DateTime @updatedAt
     title String
     body String
+    imgurl String
     choices Choice[]
 }
 

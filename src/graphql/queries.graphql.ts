@@ -6,6 +6,7 @@ export const GetPosts = gql`
       id
       title
       body
+      imgurl
       choices {
         id
         name

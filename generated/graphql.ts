@@ -31,6 +31,7 @@ export type Mutation = {
 export type MutationCreatePostArgs = {
   body: Scalars['String'];
   choices: Array<ChoiceInput>;
+  imgurl: Scalars['String'];
   title: Scalars['String'];
 };
 
@@ -39,6 +40,7 @@ export type Post = {
   body: Scalars['String'];
   choices?: Maybe<Array<Maybe<Choice>>>;
   id: Scalars['Int'];
+  imgurl: Scalars['String'];
   title: Scalars['String'];
 };
 
@@ -55,6 +57,7 @@ export type ChoiceInput = {
 export type CreatePostMutationVariables = Exact<{
   title: Scalars['String'];
   body: Scalars['String'];
+  imgurl: Scalars['String'];
   choices: Array<ChoiceInput> | ChoiceInput;
 }>;
 
@@ -64,12 +67,12 @@ export type CreatePostMutation = { __typename?: 'Mutation', createPost: { __type
 export type GetPostsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetPostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', id: number, title: string, body: string, choices?: Array<{ __typename?: 'Choice', id: number, name: string } | null> | null } | null> };
+export type GetPostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', id: number, title: string, body: string, imgurl: string, choices?: Array<{ __typename?: 'Choice', id: number, name: string } | null> | null } | null> };
 
 
 export const CreatePostDocument = gql`
-    mutation CreatePost($title: String!, $body: String!, $choices: [choiceInput!]!) {
-  createPost(title: $title, body: $body, choices: $choices) {
+    mutation CreatePost($title: String!, $body: String!, $imgurl: String!, $choices: [choiceInput!]!) {
+  createPost(title: $title, body: $body, imgurl: $imgurl, choices: $choices) {
     id
     title
     body
@@ -86,6 +89,7 @@ export const GetPostsDocument = gql`
     id
     title
     body
+    imgurl
     choices {
       id
       name

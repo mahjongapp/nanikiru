@@ -39,6 +39,7 @@ export interface NexusGenObjects {
   Post: { // root type
     body: string; // String!
     id: number; // Int!
+    imgurl: string; // String!
     title: string; // String!
   }
   Query: {};
@@ -67,6 +68,7 @@ export interface NexusGenFieldTypes {
     body: string; // String!
     choices: Array<NexusGenRootTypes['Choice'] | null> | null; // [Choice]
     id: number; // Int!
+    imgurl: string; // String!
     title: string; // String!
   }
   Query: { // field return type
@@ -88,6 +90,7 @@ export interface NexusGenFieldTypeNames {
     body: 'String'
     choices: 'Choice'
     id: 'Int'
+    imgurl: 'String'
     title: 'String'
   }
   Query: { // field return type name
@@ -101,6 +104,7 @@ export interface NexusGenArgTypes {
     createPost: { // args
       body: string; // String!
       choices: NexusGenInputs['choiceInput'][]; // [choiceInput!]!
+      imgurl: string; // String!
       title: string; // String!
     }
   }
