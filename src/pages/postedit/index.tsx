@@ -40,6 +40,7 @@ type Choice = {
 }
 
 export default function PostEdit() {
+  const [imgSending, setImgSending] = useState(false)
   const toast = useToast()
   const toastIdRef = useRef<ToastId | null>(null)
   const router = useRouter()
@@ -59,7 +60,9 @@ export default function PostEdit() {
   )
 
   const onSubmit = async (data: Inputs) => {
+    setImgSending(true)
     const result = await postImage(file)
+    setImgSending(false)
     mutate(
       { ...data, imgurl: result },
       {
@@ -156,6 +159,7 @@ export default function PostEdit() {
                 選択肢を追加
               </Button>
               <Button
+                disabled={isLoading || imgSending || isSuccess}
                 type='submit'
                 size='lg'
                 mx={8}
