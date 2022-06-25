@@ -1,7 +1,17 @@
 import { useRouter } from 'next/router'
 import client from '../../lib/client'
 import { useQuery } from 'react-query'
-import { Stack, VStack } from '@chakra-ui/react'
+import {
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  Radio,
+  RadioGroup,
+  Stack,
+  Textarea,
+  VStack,
+} from '@chakra-ui/react'
 import Header from '../../components/header'
 import PostPreview from '../../components/PostPreview'
 
@@ -24,6 +34,25 @@ export default function Answer() {
           imgurl={data?.post.imgurl}
           choices={data?.post.choices}
         />
+        <Box>
+          <form>
+            <FormControl>
+              <FormLabel>選択肢</FormLabel>
+              <RadioGroup>
+                <Stack>
+                  {data?.post.choices?.map((choice, index) => (
+                    <Radio key={index}>{choice?.name}</Radio>
+                  ))}
+                </Stack>
+              </RadioGroup>
+              <FormLabel>コメント</FormLabel>
+              <Textarea />
+            </FormControl>
+            <Button type='submit' size='lg' mx={8} my={2} colorScheme={'green'}>
+              投稿
+            </Button>
+          </form>
+        </Box>
       </VStack>
     </Stack>
   )
