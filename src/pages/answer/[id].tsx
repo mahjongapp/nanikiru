@@ -14,8 +14,9 @@ import {
 } from '@chakra-ui/react'
 import Header from '../../components/header'
 import PostPreview from '../../components/PostPreview'
+import { Answer } from '../../components/Answer'
 
-export default function Answer() {
+export default function AnswerPage() {
   const router = useRouter()
   const { id } = router.query
   const { data, isLoading, isSuccess } = useQuery('GetPostByID', () =>
@@ -53,6 +54,7 @@ export default function Answer() {
             </Button>
           </form>
         </Box>
+        <Answer choice='hoge' body='body' />
       </VStack>
     </Stack>
   )
