@@ -47,7 +47,13 @@ export type Post = {
 export type Query = {
   __typename?: 'Query';
   hello?: Maybe<Scalars['String']>;
+  post: Post;
   posts: Array<Maybe<Post>>;
+};
+
+
+export type QueryPostArgs = {
+  id: Scalars['Int'];
 };
 
 export type ChoiceInput = {
@@ -68,6 +74,13 @@ export type GetPostsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetPostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', id: number, title: string, body: string, imgurl: string, choices?: Array<{ __typename?: 'Choice', id: number, name: string } | null> | null } | null> };
+
+export type GetPostByIdQueryVariables = Exact<{
+  postId: Scalars['Int'];
+}>;
+
+
+export type GetPostByIdQuery = { __typename?: 'Query', post: { __typename?: 'Post', id: number, title: string, body: string, imgurl: string, choices?: Array<{ __typename?: 'Choice', id: number, name: string } | null> | null } };
 
 
 export const CreatePostDocument = gql`
@@ -97,6 +110,20 @@ export const GetPostsDocument = gql`
   }
 }
     `;
+export const GetPostByIdDocument = gql`
+    query GetPostByID($postId: Int!) {
+  post(id: $postId) {
+    id
+    title
+    body
+    imgurl
+    choices {
+      id
+      name
+    }
+  }
+}
+    `;
 
 export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;
 
@@ -110,6 +137,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     GetPosts(variables?: GetPostsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetPostsQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetPostsQuery>(GetPostsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetPosts', 'query');
+    },
+    GetPostByID(variables: GetPostByIdQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetPostByIdQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetPostByIdQuery>(GetPostByIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetPostByID', 'query');
     }
   };
 }

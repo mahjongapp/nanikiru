@@ -1,6 +1,6 @@
 import { queryType, makeSchema } from 'nexus'
 import path from 'path'
-import { Post, PostsQuery, CreatePostMutation, choiceInput } from './Query/Post'
+import { Post, PostQuery, PostsQuery, CreatePostMutation, choiceInput } from './Query/Post'
 import { Choice } from './Query/Choice'
 
 const Query = queryType({
@@ -10,7 +10,7 @@ const Query = queryType({
 })
 
 export const schema = makeSchema({
-  types: [Query, Post, PostsQuery, CreatePostMutation, Choice, choiceInput],
+  types: [Query, Post, PostQuery, PostsQuery, CreatePostMutation, Choice, choiceInput],
   outputs: {
     typegen: path.join(process.cwd(), 'generated', 'nexus-typegen.ts'),
     schema: path.join(process.cwd(), 'generated', 'schema.graphql'),
