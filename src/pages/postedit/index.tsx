@@ -7,20 +7,21 @@ import {
   HStack,
   Input,
   Stack,
-  Spacer,
   Textarea,
   ToastId,
   Progress,
 } from '@chakra-ui/react'
 import Header from '../../components/header'
-import { useForm, useFieldArray, UseFormRegister } from 'react-hook-form'
+import { useForm, useFieldArray, Controller } from 'react-hook-form'
 import { useRouter } from 'next/router'
 import { useMutation } from 'react-query'
 import client from '../../lib/client'
 import { useRef, useState } from 'react'
-import { CloseIcon, AddIcon, CheckIcon } from '@chakra-ui/icons'
+import { AddIcon, CheckIcon } from '@chakra-ui/icons'
 import Image from 'next/image'
 import { postImage } from '../../lib/upload'
+import { Select, GroupBase } from 'chakra-react-select'
+import { ChoiceGroup, choiceGroups } from '../../lib/choices'
 
 type Inputs = {
   title: string
@@ -36,7 +37,8 @@ type CreatePostData = {
 }
 
 type Choice = {
-  name: string
+  label: string
+  value: string
 }
 
 export default function PostEdit() {
@@ -47,7 +49,7 @@ export default function PostEdit() {
   const [imgurl, setImgurl] = useState('')
   const { handleSubmit, register, control } = useForm<Inputs>({
     defaultValues: {
-      choices: [{ name: '' }],
+      choices: [],
     },
   })
   const [file, setFile] = useState<File | null>(null)
@@ -56,7 +58,16 @@ export default function PostEdit() {
     name: 'choices',
   })
   const { mutate, isLoading, isSuccess } = useMutation((data: CreatePostData) =>
-    client.CreatePost(data),
+    client.CreatePost({
+      title: data.title,
+      body: data.body,
+      imgurl: data.imgurl,
+      choices: data.choices.map((choice) => {
+        return {
+          name: choice.value,
+        }
+      }),
+    }),
   )
 
   const onSubmit = async (data: Inputs) => {
@@ -83,7 +94,7 @@ export default function PostEdit() {
     )
   }
   const addChoice = () => {
-    append({ name: '' })
+    append({})
   }
   const removeChoice = (index: number) => {
     remove(index)
@@ -134,18 +145,29 @@ export default function PostEdit() {
               {...register('body')}
             />
           </Box>
-          {fields.map((field, index) => {
-            return (
-              <Box key={index}>
-                <ChoiceItem
-                  key={field.id}
-                  register={register}
-                  choiceIndex={index}
-                  removeChoice={removeChoice}
-                />
-              </Box>
-            )
-          })}
+          <FormLabel htmlFor='choices'>選択肢</FormLabel>
+          <Controller
+            control={control}
+            name='choices'
+            rules={{ required: 'Please enter at least one food group.' }}
+            render={({
+              field: { onChange, onBlur, value, name, ref },
+              fieldState: { invalid, error },
+            }) => (
+              <Select<ChoiceGroup, true, GroupBase<ChoiceGroup>>
+                id='choices'
+                isMulti
+                name={name}
+                ref={ref}
+                onChange={onChange}
+                onBlur={onBlur}
+                value={value}
+                options={choiceGroups}
+                placeholder='ここに選択肢を追加'
+                closeMenuOnSelect={true}
+              />
+            )}
+          />
           <Box display='flex' justifyContent='center'>
             <HStack mt={8}>
               <Button
@@ -174,41 +196,5 @@ export default function PostEdit() {
         </FormControl>
       </form>
     </Stack>
-  )
-}
-
-type Props = {
-  register: UseFormRegister<Inputs>
-  choiceIndex: number
-  removeChoice: (index: number) => void
-}
-
-const ChoiceItem = ({ register, choiceIndex, removeChoice }: Props) => {
-  return (
-    <Box>
-      <FormLabel mx={4}>・選択肢{choiceIndex + 1}</FormLabel>
-      <HStack spacing={1}>
-        <Box pl={16} w='full'>
-          <Input
-            focusBorderColor='gray.400'
-            placeholder='ここに選択肢を入力'
-            {...register(`choices.${choiceIndex}.name` as const)}
-          ></Input>
-        </Box>
-        <Spacer />
-        <Box>
-          <Button
-            mx={4}
-            mr={16}
-            type={'button'}
-            colorScheme={'red'}
-            leftIcon={<CloseIcon />}
-            onClick={() => removeChoice(choiceIndex)}
-          >
-            削除
-          </Button>
-        </Box>
-      </HStack>
-    </Box>
   )
 }
