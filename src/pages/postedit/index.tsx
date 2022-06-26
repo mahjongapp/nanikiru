@@ -7,37 +7,21 @@ import {
   HStack,
   Input,
   Stack,
-  Spacer,
   Textarea,
   ToastId,
   Progress,
 } from '@chakra-ui/react'
 import Header from '../../components/header'
-import { useForm, useFieldArray, UseFormRegister, Controller } from 'react-hook-form'
+import { useForm, useFieldArray, Controller } from 'react-hook-form'
 import { useRouter } from 'next/router'
 import { useMutation } from 'react-query'
 import client from '../../lib/client'
 import { useRef, useState } from 'react'
-import { CloseIcon, AddIcon, CheckIcon } from '@chakra-ui/icons'
+import { AddIcon, CheckIcon } from '@chakra-ui/icons'
 import Image from 'next/image'
 import { postImage } from '../../lib/upload'
-import { Select, OptionBase, GroupBase } from 'chakra-react-select'
-
-interface ChoiceGroup extends OptionBase {
-  label: string
-  value: string
-}
-
-const choiceGroups: ChoiceGroup[] = [
-  {
-    label: '1m',
-    value: '1m',
-  },
-  {
-    label: '2m',
-    value: '2m',
-  },
-]
+import { Select, GroupBase } from 'chakra-react-select'
+import { ChoiceGroup, choiceGroups } from '../../lib/choices'
 
 type Inputs = {
   title: string
