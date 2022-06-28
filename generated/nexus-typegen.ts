@@ -89,6 +89,7 @@ export interface NexusGenFieldTypes {
     title: string; // String!
   }
   Query: { // field return type
+    answersByPostId: Array<NexusGenRootTypes['Answer'] | null>; // [Answer]!
     hello: string | null; // String
     post: NexusGenRootTypes['Post']; // Post!
     posts: Array<NexusGenRootTypes['Post'] | null>; // [Post]!
@@ -122,6 +123,7 @@ export interface NexusGenFieldTypeNames {
     title: 'String'
   }
   Query: { // field return type name
+    answersByPostId: 'Answer'
     hello: 'String'
     post: 'Post'
     posts: 'Post'
@@ -143,6 +145,9 @@ export interface NexusGenArgTypes {
     }
   }
   Query: {
+    answersByPostId: { // args
+      postId: number; // Int!
+    }
     post: { // args
       id: number; // Int!
     }

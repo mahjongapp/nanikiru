@@ -30,6 +30,7 @@ export type Choice = {
   id: Scalars['Int'];
   name: Scalars['String'];
   post?: Maybe<Post>;
+  postId: Scalars['Int'];
 };
 
 export type Mutation = {
@@ -64,9 +65,15 @@ export type Post = {
 
 export type Query = {
   __typename?: 'Query';
+  answersByPostId: Array<Maybe<Answer>>;
   hello?: Maybe<Scalars['String']>;
   post: Post;
   posts: Array<Maybe<Post>>;
+};
+
+
+export type QueryAnswersByPostIdArgs = {
+  postId: Scalars['Int'];
 };
 
 
@@ -108,6 +115,13 @@ export type GetPostByIdQueryVariables = Exact<{
 
 
 export type GetPostByIdQuery = { __typename?: 'Query', post: { __typename?: 'Post', id: number, title: string, body: string, imgurl: string, choices?: Array<{ __typename?: 'Choice', id: number, name: string } | null> | null } };
+
+export type GetAnswersByPostIdQueryVariables = Exact<{
+  postId: Scalars['Int'];
+}>;
+
+
+export type GetAnswersByPostIdQuery = { __typename?: 'Query', answersByPostId: Array<{ __typename?: 'Answer', id: number, body: string, choiceId: number, postId: number, choice?: { __typename?: 'Choice', id: number, name: string } | null } | null> };
 
 
 export const CreatePostDocument = gql`
@@ -174,6 +188,20 @@ export const GetPostByIdDocument = gql`
   }
 }
     `;
+export const GetAnswersByPostIdDocument = gql`
+    query GetAnswersByPostId($postId: Int!) {
+  answersByPostId(postId: $postId) {
+    id
+    body
+    choiceId
+    postId
+    choice {
+      id
+      name
+    }
+  }
+}
+    `;
 
 export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;
 
@@ -193,6 +221,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     GetPostByID(variables: GetPostByIdQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetPostByIdQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetPostByIdQuery>(GetPostByIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetPostByID', 'query');
+    },
+    GetAnswersByPostId(variables: GetAnswersByPostIdQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetAnswersByPostIdQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetAnswersByPostIdQuery>(GetAnswersByPostIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetAnswersByPostId', 'query');
     }
   };
 }

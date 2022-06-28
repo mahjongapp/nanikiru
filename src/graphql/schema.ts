@@ -2,7 +2,7 @@ import { queryType, makeSchema } from 'nexus'
 import path from 'path'
 import { Post, PostQuery, PostsQuery, CreatePostMutation, choiceInput } from './Query/Post'
 import { Choice } from './Query/Choice'
-import { Answer, CreateAnswerMutation } from './Query/Answer'
+import { Answer, AnswersQuery, CreateAnswerMutation } from './Query/Answer'
 
 const Query = queryType({
   definition(t) {
@@ -12,6 +12,7 @@ const Query = queryType({
 
 export const schema = makeSchema({
   types: [
+    AnswersQuery,
     Answer,
     Query,
     Post,

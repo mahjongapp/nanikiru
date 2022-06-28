@@ -32,6 +32,7 @@ type Post {
 }
 
 type Query {
+  answersByPostId(postId: Int!): [Answer]!
   hello: String
   post(id: Int!): Post!
   posts: [Post]!

@@ -7,6 +7,7 @@ import {
   FormControl,
   FormErrorMessage,
   FormLabel,
+  Progress,
   Radio,
   RadioGroup,
   Stack,
@@ -34,6 +35,9 @@ export default function AnswerPage() {
   const router = useRouter()
   const { id } = router.query
   const { data } = useQuery('GetPostByID', () => client.GetPostByID({ postId: Number(id) }))
+  const { data: answers } = useQuery('GetAnswersByPostId', () =>
+    client.GetAnswersByPostId({ postId: Number(id) }),
+  )
   const { mutate, isLoading } = useMutation((data: Input) =>
     client.CreateAnswer({ body: data.body, choiceId: Number(data.choice), postId: Number(id) }),
   )
@@ -48,6 +52,7 @@ export default function AnswerPage() {
 
   return (
     <Stack>
+      {isLoading && <Progress size='xs' isIndeterminate />}
       <Header />
       {data === undefined ? (
         <Box>Loading</Box>
@@ -99,7 +104,9 @@ export default function AnswerPage() {
               </Button>
             </Stack>
           </Box>
-          <Answer choice='hoge' body='body' />
+          {answers?.answersByPostId.map((answer, index) => (
+            <Answer key={index} choice={answer?.choice?.name} body={answer?.body} />
+          ))}
         </VStack>
       )}
     </Stack>

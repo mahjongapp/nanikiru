@@ -22,6 +22,27 @@ export const Answer = objectType({
   },
 })
 
+export const AnswersQuery = extendType({
+  type: 'Query',
+  definition(t) {
+    t.nonNull.list.field('answersByPostId', {
+      type: 'Answer',
+      args: {
+        postId: nonNull(intArg()),
+      },
+      resolve(_parent, args, ctx) {
+        return ctx.prisma.post
+          .findUnique({
+            where: {
+              id: args.postId,
+            },
+          })
+          .answers()
+      },
+    })
+  },
+})
+
 export const CreateAnswerMutation = extendType({
   type: 'Mutation',
   definition(t) {
