@@ -1,8 +1,8 @@
 import { Box, Stack } from '@chakra-ui/react'
 
 type Props = {
-  choice: String
-  body: String
+  choice?: String
+  body?: String
 }
 
 export function Answer({ choice, body }: Props) {

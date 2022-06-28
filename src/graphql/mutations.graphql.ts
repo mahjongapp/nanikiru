@@ -24,3 +24,27 @@ export const choiceInput = gql`
     name: String!
   }
 `
+
+export const CreateAnswer = gql`
+  mutation CreateAnswer($body: String!, $postId: Int!, $choiceId: Int!) {
+    createAnswer(body: $body, postId: $postId, choiceId: $choiceId) {
+      id
+      body
+      postId
+      post {
+        title
+        body
+        imgurl
+        choices {
+          id
+          name
+        }
+      }
+      choiceId
+      choice {
+        id
+        name
+      }
+    }
+  }
+`

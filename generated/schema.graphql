@@ -2,13 +2,24 @@
 ### Do not make changes to this file directly
 
 
+type Answer {
+  body: String!
+  choice: Choice
+  choiceId: Int!
+  id: Int!
+  post: Post
+  postId: Int!
+}
+
 type Choice {
   id: Int!
   name: String!
   post: Post
+  postId: Int!
 }
 
 type Mutation {
+  createAnswer(body: String!, choiceId: Int!, postId: Int!): Answer!
   createPost(body: String!, choices: [choiceInput!]!, imgurl: String!, title: String!): Post!
 }
 
@@ -21,6 +32,7 @@ type Post {
 }
 
 type Query {
+  answersByPostId(postId: Int!): [Answer]!
   hello: String
   post(id: Int!): Post!
   posts: [Post]!

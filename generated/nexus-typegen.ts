@@ -31,9 +31,16 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  Answer: { // root type
+    body: string; // String!
+    choiceId: number; // Int!
+    id: number; // Int!
+    postId: number; // Int!
+  }
   Choice: { // root type
     id: number; // Int!
     name: string; // String!
+    postId: number; // Int!
   }
   Mutation: {};
   Post: { // root type
@@ -56,12 +63,22 @@ export type NexusGenRootTypes = NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 
 export interface NexusGenFieldTypes {
+  Answer: { // field return type
+    body: string; // String!
+    choice: NexusGenRootTypes['Choice'] | null; // Choice
+    choiceId: number; // Int!
+    id: number; // Int!
+    post: NexusGenRootTypes['Post'] | null; // Post
+    postId: number; // Int!
+  }
   Choice: { // field return type
     id: number; // Int!
     name: string; // String!
     post: NexusGenRootTypes['Post'] | null; // Post
+    postId: number; // Int!
   }
   Mutation: { // field return type
+    createAnswer: NexusGenRootTypes['Answer']; // Answer!
     createPost: NexusGenRootTypes['Post']; // Post!
   }
   Post: { // field return type
@@ -72,6 +89,7 @@ export interface NexusGenFieldTypes {
     title: string; // String!
   }
   Query: { // field return type
+    answersByPostId: Array<NexusGenRootTypes['Answer'] | null>; // [Answer]!
     hello: string | null; // String
     post: NexusGenRootTypes['Post']; // Post!
     posts: Array<NexusGenRootTypes['Post'] | null>; // [Post]!
@@ -79,12 +97,22 @@ export interface NexusGenFieldTypes {
 }
 
 export interface NexusGenFieldTypeNames {
+  Answer: { // field return type name
+    body: 'String'
+    choice: 'Choice'
+    choiceId: 'Int'
+    id: 'Int'
+    post: 'Post'
+    postId: 'Int'
+  }
   Choice: { // field return type name
     id: 'Int'
     name: 'String'
     post: 'Post'
+    postId: 'Int'
   }
   Mutation: { // field return type name
+    createAnswer: 'Answer'
     createPost: 'Post'
   }
   Post: { // field return type name
@@ -95,6 +123,7 @@ export interface NexusGenFieldTypeNames {
     title: 'String'
   }
   Query: { // field return type name
+    answersByPostId: 'Answer'
     hello: 'String'
     post: 'Post'
     posts: 'Post'
@@ -103,6 +132,11 @@ export interface NexusGenFieldTypeNames {
 
 export interface NexusGenArgTypes {
   Mutation: {
+    createAnswer: { // args
+      body: string; // String!
+      choiceId: number; // Int!
+      postId: number; // Int!
+    }
     createPost: { // args
       body: string; // String!
       choices: NexusGenInputs['choiceInput'][]; // [choiceInput!]!
@@ -111,6 +145,9 @@ export interface NexusGenArgTypes {
     }
   }
   Query: {
+    answersByPostId: { // args
+      postId: number; // Int!
+    }
     post: { // args
       id: number; // Int!
     }
