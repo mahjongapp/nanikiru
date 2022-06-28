@@ -5,6 +5,7 @@ export const Choice = objectType({
   definition(t) {
     t.nonNull.int('id')
     t.nonNull.string('name')
+    t.nonNull.int('postId')
     t.field('post', {
       type: 'Post',
       resolve(parent, _args, ctx) {

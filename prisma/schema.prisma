@@ -18,6 +18,7 @@ model Post {
     body String
     imgurl String
     choices Choice[]
+    answers Answer[]
 }
 
 model Choice {
@@ -25,4 +26,14 @@ model Choice {
     name String
     post Post @relation(fields: [postId], references: [id])
     postId Int
+    answers Answer[]
+}
+
+model Answer {
+    id Int @id @default(autoincrement())
+    body String
+    post Post @relation(fields: [postId], references: [id])
+    postId Int
+    choice Choice @relation(fields: [choiceId], references: [id])
+    choiceId Int
 }

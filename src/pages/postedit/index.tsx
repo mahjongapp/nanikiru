@@ -67,7 +67,6 @@ export default function PostEdit() {
       { ...data, imgurl: result },
       {
         onSuccess: (res) => {
-          console.log(res)
           toastIdRef.current = toast({
             title: '送信完了',
             status: 'success',

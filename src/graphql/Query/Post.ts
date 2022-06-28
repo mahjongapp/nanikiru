@@ -77,6 +77,9 @@ export const CreatePostMutation = extendType({
             choices: {
               create: args.choices,
             },
+            answers: {
+              create: [],
+            },
           },
         })
       },
