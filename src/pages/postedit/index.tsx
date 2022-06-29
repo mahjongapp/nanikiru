@@ -170,16 +170,6 @@ export default function PostEdit() {
           <Box display='flex' justifyContent='center'>
             <HStack mt={8}>
               <Button
-                onClick={addChoice}
-                type={'button'}
-                mx={8}
-                my={2}
-                colorScheme={'teal'}
-                leftIcon={<AddIcon />}
-              >
-                選択肢を追加
-              </Button>
-              <Button
                 disabled={isLoading || imgSending || isSuccess}
                 type='submit'
                 size='lg'
