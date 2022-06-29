@@ -129,7 +129,7 @@ type Props = {
   }
 }
 
-export async function getServerSideProps(context: { params: { id: string } }) {
+export async function getStaticProps(context: { params: { id: string } }) {
   const post = await prisma?.post.findUnique({
     where: {
       id: Number(context.params.id),
@@ -150,5 +150,11 @@ export async function getServerSideProps(context: { params: { id: string } }) {
         }),
       },
     },
+    revalidate: 10,
   }
 }
+
+export const getStaticPaths = async () => ({
+  paths: [],
+  fallback: 'blocking',
+})
