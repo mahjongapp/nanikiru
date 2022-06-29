@@ -13,6 +13,10 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** The `BigInt` scalar type represents non-fractional signed whole numeric values. */
+  BigInt: any;
+  /** A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
+  DateTime: any;
 };
 
 export type Answer = {
@@ -58,9 +62,11 @@ export type Post = {
   __typename?: 'Post';
   body: Scalars['String'];
   choices?: Maybe<Array<Maybe<Choice>>>;
+  createdAt: Scalars['DateTime'];
   id: Scalars['Int'];
   imgurl: Scalars['String'];
   title: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
 };
 
 export type Query = {
@@ -107,7 +113,7 @@ export type CreateAnswerMutation = { __typename?: 'Mutation', createAnswer: { __
 export type GetPostsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetPostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', id: number, title: string, body: string, imgurl: string, choices?: Array<{ __typename?: 'Choice', id: number, name: string } | null> | null } | null> };
+export type GetPostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', id: number, title: string, body: string, imgurl: string, createdAt: any, updatedAt: any, choices?: Array<{ __typename?: 'Choice', id: number, name: string } | null> | null } | null> };
 
 export type GetPostByIdQueryVariables = Exact<{
   postId: Scalars['Int'];
@@ -167,6 +173,8 @@ export const GetPostsDocument = gql`
     title
     body
     imgurl
+    createdAt
+    updatedAt
     choices {
       id
       name

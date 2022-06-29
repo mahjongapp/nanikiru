@@ -16,6 +16,8 @@ export const Post = objectType({
     t.nonNull.string('title')
     t.nonNull.string('body')
     t.nonNull.string('imgurl')
+    t.nonNull.datetime('createdAt')
+    t.nonNull.datetime('updatedAt')
     t.list.field('choices', {
       type: 'Choice',
       resolve(parent, _args, ctx) {
