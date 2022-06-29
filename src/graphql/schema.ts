@@ -1,8 +1,9 @@
-import { queryType, makeSchema } from 'nexus'
+import { queryType, makeSchema, asNexusMethod } from 'nexus'
 import path from 'path'
 import { Post, PostQuery, PostsQuery, CreatePostMutation, choiceInput } from './Query/Post'
 import { Choice } from './Query/Choice'
 import { Answer, AnswersQuery, CreateAnswerMutation } from './Query/Answer'
+import { GraphQLBigInt, GraphQLDateTime } from 'graphql-scalars'
 
 const Query = queryType({
   definition(t) {
@@ -22,6 +23,8 @@ export const schema = makeSchema({
     CreatePostMutation,
     Choice,
     choiceInput,
+    asNexusMethod(GraphQLBigInt, 'bigint', 'bigint'),
+    asNexusMethod(GraphQLDateTime, 'datetime', 'Date'),
   ],
   outputs: {
     typegen: path.join(process.cwd(), 'generated', 'nexus-typegen.ts'),

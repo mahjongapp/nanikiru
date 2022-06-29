@@ -5,8 +5,31 @@
 
 
 import type { Context } from "./../src/lib/context"
-
-
+import type { core } from "nexus"
+declare global {
+  interface NexusGenCustomInputMethods<TypeName extends string> {
+    /**
+     * The `BigInt` scalar type represents non-fractional signed whole numeric values.
+     */
+    bigint<FieldName extends string>(fieldName: FieldName, opts?: core.CommonInputFieldConfig<TypeName, FieldName>): void // "BigInt";
+    /**
+     * A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+     */
+    datetime<FieldName extends string>(fieldName: FieldName, opts?: core.CommonInputFieldConfig<TypeName, FieldName>): void // "DateTime";
+  }
+}
+declare global {
+  interface NexusGenCustomOutputMethods<TypeName extends string> {
+    /**
+     * The `BigInt` scalar type represents non-fractional signed whole numeric values.
+     */
+    bigint<FieldName extends string>(fieldName: FieldName, ...opts: core.ScalarOutSpread<TypeName, FieldName>): void // "BigInt";
+    /**
+     * A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+     */
+    datetime<FieldName extends string>(fieldName: FieldName, ...opts: core.ScalarOutSpread<TypeName, FieldName>): void // "DateTime";
+  }
+}
 
 
 declare global {
@@ -28,6 +51,8 @@ export interface NexusGenScalars {
   Float: number
   Boolean: boolean
   ID: string
+  BigInt: bigint
+  DateTime: Date
 }
 
 export interface NexusGenObjects {
@@ -45,9 +70,11 @@ export interface NexusGenObjects {
   Mutation: {};
   Post: { // root type
     body: string; // String!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: number; // Int!
     imgurl: string; // String!
     title: string; // String!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
   }
   Query: {};
 }
@@ -84,9 +111,11 @@ export interface NexusGenFieldTypes {
   Post: { // field return type
     body: string; // String!
     choices: Array<NexusGenRootTypes['Choice'] | null> | null; // [Choice]
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: number; // Int!
     imgurl: string; // String!
     title: string; // String!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
   }
   Query: { // field return type
     answersByPostId: Array<NexusGenRootTypes['Answer'] | null>; // [Answer]!
@@ -118,9 +147,11 @@ export interface NexusGenFieldTypeNames {
   Post: { // field return type name
     body: 'String'
     choices: 'Choice'
+    createdAt: 'DateTime'
     id: 'Int'
     imgurl: 'String'
     title: 'String'
+    updatedAt: 'DateTime'
   }
   Query: { // field return type name
     answersByPostId: 'Answer'
