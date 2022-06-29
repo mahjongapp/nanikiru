@@ -37,7 +37,11 @@ export const AnswersQuery = extendType({
               id: args.postId,
             },
           })
-          .answers()
+          .answers({
+            orderBy: {
+              updatedAt: 'desc',
+            },
+          })
       },
     })
   },

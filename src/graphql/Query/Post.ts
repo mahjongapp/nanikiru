@@ -31,7 +31,11 @@ export const PostsQuery = extendType({
     t.nonNull.list.field('posts', {
       type: 'Post',
       resolve(_parent, _args, ctx) {
-        return ctx.prisma.post.findMany()
+        return ctx.prisma.post.findMany({
+          orderBy: {
+            updatedAt: 'desc',
+          },
+        })
       },
     })
   },

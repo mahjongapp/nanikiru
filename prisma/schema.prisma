@@ -36,4 +36,6 @@ model Answer {
     postId Int
     choice Choice @relation(fields: [choiceId], references: [id])
     choiceId Int
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
