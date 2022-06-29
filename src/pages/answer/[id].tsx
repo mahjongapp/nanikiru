@@ -37,7 +37,7 @@ export default function AnswerPage({ post }: Props) {
   console.log(post)
   const router = useRouter()
   const { id } = router.query
-  const { data: answers, isLoading: isAnswerLoading } = useQuery('GetAnswersByPostId', () =>
+  const { data: answers, isLoading: isAnswerLoading } = useQuery(`GetAnswersByPostId${id}`, () =>
     client.GetAnswersByPostId({ postId: Number(id) }),
   )
   const { mutate, isLoading } = useMutation((data: Input) =>
