@@ -14,7 +14,7 @@ import {
 import Header from '../../components/header'
 import { useForm, useFieldArray, Controller } from 'react-hook-form'
 import { useRouter } from 'next/router'
-import { useMutation } from 'react-query'
+import { useMutation, useQueryClient } from 'react-query'
 import client from '../../lib/client'
 import { useRef, useState } from 'react'
 import { AddIcon, CheckIcon } from '@chakra-ui/icons'
@@ -43,6 +43,7 @@ type Choice = {
 
 export default function PostEdit() {
   const [imgSending, setImgSending] = useState(false)
+  const queryClient = useQueryClient()
   const toast = useToast()
   const toastIdRef = useRef<ToastId | null>(null)
   const router = useRouter()
@@ -84,6 +85,7 @@ export default function PostEdit() {
             position: 'top',
             isClosable: false,
           })
+          queryClient.invalidateQueries('getPosts')
           setTimeout(() => {
             router.push('/')
             toastIdRef.current !== null && toast.close(toastIdRef.current)
@@ -91,12 +93,6 @@ export default function PostEdit() {
         },
       },
     )
-  }
-  const addChoice = () => {
-    append({})
-  }
-  const removeChoice = (index: number) => {
-    remove(index)
   }
 
   return (
@@ -169,16 +165,6 @@ export default function PostEdit() {
           />
           <Box display='flex' justifyContent='center'>
             <HStack mt={8}>
-              <Button
-                onClick={addChoice}
-                type={'button'}
-                mx={8}
-                my={2}
-                colorScheme={'teal'}
-                leftIcon={<AddIcon />}
-              >
-                選択肢を追加
-              </Button>
               <Button
                 disabled={isLoading || imgSending || isSuccess}
                 type='submit'
