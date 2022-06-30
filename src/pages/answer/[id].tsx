@@ -12,6 +12,7 @@ import {
   RadioGroup,
   Stack,
   Textarea,
+  useToast,
   VStack,
 } from '@chakra-ui/react'
 import Header from '../../components/header'
@@ -34,6 +35,7 @@ export default function AnswerPage({ post }: Props) {
     formState: { errors },
     reset,
   } = useForm<Input>()
+  const toast = useToast()
   const queryClient = useQueryClient()
   const router = useRouter()
   const { id } = router.query
@@ -41,8 +43,14 @@ export default function AnswerPage({ post }: Props) {
     client.GetAnswersByPostId({ postId: Number(id) }),
   )
   const { mutate, isLoading } = useMutation(
-    (data: Input) =>
-      client.CreateAnswer({ body: data.body, choiceId: Number(data.choice), postId: Number(id) }),
+    async (data: Input) => {
+      reset({ body: '', choice: '' })
+      return client.CreateAnswer({
+        body: data.body,
+        choiceId: Number(data.choice),
+        postId: Number(id),
+      })
+    },
     {
       onMutate: async (newInput: Input) => {
         await queryClient.cancelQueries(['GetAnswersByPostId', id])
@@ -64,6 +72,12 @@ export default function AnswerPage({ post }: Props) {
         return { previousAnswers }
       },
       onError: (err, newAnswer, context) => {
+        toast({
+          title: '送信失敗',
+          status: 'error',
+          isClosable: true,
+        })
+        reset({ ...newAnswer })
         queryClient.setQueryData(['GetAnswersByPostId', id], context?.previousAnswers)
       },
       onSettled: () => {
@@ -73,16 +87,11 @@ export default function AnswerPage({ post }: Props) {
   )
 
   const onSubmit = async (data: Input) => {
-    mutate(data, {
-      onSuccess: (res) => {
-        reset({ body: '', choice: '' })
-      },
-    })
+    mutate(data)
   }
 
   return (
     <Stack>
-      {isLoading && <Progress size='xs' isIndeterminate />}
       <Header />
 
       <VStack>
@@ -136,7 +145,13 @@ export default function AnswerPage({ post }: Props) {
           <Box>loading...</Box>
         ) : (
           answers?.answersByPostId.map((answer, index) => (
-            <Answer key={index} choice={answer?.choice?.name} body={answer?.body} />
+            <Answer
+              key={index}
+              index={index}
+              isSending={isLoading}
+              choice={answer?.choice?.name}
+              body={answer?.body}
+            />
           ))
         )}
       </VStack>
