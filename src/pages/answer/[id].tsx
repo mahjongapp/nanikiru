@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import client from '../../lib/client'
-import { useMutation, useQuery } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import {
   Box,
   Button,
@@ -19,7 +19,7 @@ import PostPreview from '../../components/PostPreview'
 import { Answer } from '../../components/Answer'
 import { Controller, useForm } from 'react-hook-form'
 import { prisma } from '../../lib/prisma'
-import { Post } from '@prisma/client'
+import { GetAnswersByPostIdQuery } from '../../../generated/graphql'
 
 type Input = {
   body: string
@@ -34,14 +34,42 @@ export default function AnswerPage({ post }: Props) {
     formState: { errors },
     reset,
   } = useForm<Input>()
-  console.log(post)
+  const queryClient = useQueryClient()
   const router = useRouter()
   const { id } = router.query
-  const { data: answers, isLoading: isAnswerLoading } = useQuery(`GetAnswersByPostId${id}`, () =>
+  const { data: answers, isLoading: isAnswerLoading } = useQuery(['GetAnswersByPostId', id], () =>
     client.GetAnswersByPostId({ postId: Number(id) }),
   )
-  const { mutate, isLoading } = useMutation((data: Input) =>
-    client.CreateAnswer({ body: data.body, choiceId: Number(data.choice), postId: Number(id) }),
+  const { mutate, isLoading } = useMutation(
+    (data: Input) =>
+      client.CreateAnswer({ body: data.body, choiceId: Number(data.choice), postId: Number(id) }),
+    {
+      onMutate: async (newInput: Input) => {
+        await queryClient.cancelQueries(['GetAnswersByPostId', id])
+        const previousAnswers = queryClient.getQueryData(['GetAnswersByPostId', id])
+        queryClient.setQueryData<GetAnswersByPostIdQuery>(['GetAnswersByPostId', id], (old) => {
+          const newAnswer = {
+            __typename: 'Answer' as 'Answer',
+            body: newInput.body,
+            choice: {
+              __typename: 'Choice' as 'Choice',
+              name: post.choices.filter((choice) => choice.id === Number(newInput.choice))[0].name,
+            },
+          }
+          return {
+            __typename: 'Query',
+            answersByPostId: old ? [newAnswer, ...old.answersByPostId] : [newAnswer],
+          }
+        })
+        return { previousAnswers }
+      },
+      onError: (err, newAnswer, context) => {
+        queryClient.setQueryData(['GetAnswersByPostId', id], context?.previousAnswers)
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries(['GetAnswersByPostId', id])
+      },
+    },
   )
 
   const onSubmit = async (data: Input) => {

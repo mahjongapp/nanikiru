@@ -127,7 +127,7 @@ export type GetAnswersByPostIdQueryVariables = Exact<{
 }>;
 
 
-export type GetAnswersByPostIdQuery = { __typename?: 'Query', answersByPostId: Array<{ __typename?: 'Answer', id: number, body: string, choiceId: number, postId: number, choice?: { __typename?: 'Choice', id: number, name: string } | null } | null> };
+export type GetAnswersByPostIdQuery = { __typename?: 'Query', answersByPostId: Array<{ __typename?: 'Answer', body: string, choice?: { __typename?: 'Choice', name: string } | null } | null> };
 
 
 export const CreatePostDocument = gql`
@@ -199,12 +199,8 @@ export const GetPostByIdDocument = gql`
 export const GetAnswersByPostIdDocument = gql`
     query GetAnswersByPostId($postId: Int!) {
   answersByPostId(postId: $postId) {
-    id
     body
-    choiceId
-    postId
     choice {
-      id
       name
     }
   }

@@ -35,12 +35,8 @@ export const GetPostById = gql`
 export const GetAnswersByPostId = gql`
   query GetAnswersByPostId($postId: Int!) {
     answersByPostId(postId: $postId) {
-      id
       body
-      choiceId
-      postId
       choice {
-        id
         name
       }
     }
