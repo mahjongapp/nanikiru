@@ -109,6 +109,10 @@ export default function AnswerPage({ post }: Props) {
           body={post.body}
           imgurl={post.imgurl}
           choices={post.choices}
+          user={{
+            name: post?.user?.name,
+            image: post?.user?.image,
+          }}
         />
         <Box>
           <Stack as='form' onSubmit={handleSubmit(onSubmit)}>
@@ -159,6 +163,10 @@ export default function AnswerPage({ post }: Props) {
               isSending={isLoading}
               choice={answer?.choice?.name}
               body={answer?.body}
+              user={{
+                name: answer?.user?.name,
+                image: answer?.user?.image,
+              }}
             />
           ))
         )}
@@ -177,6 +185,10 @@ type Props = {
       id: number
       name: string
     }[]
+    user: {
+      name: string
+      image: string
+    }
   }
 }
 
@@ -187,6 +199,7 @@ export async function getStaticProps(context: { params: { id: string } }) {
     },
     include: {
       choices: true,
+      user: true,
     },
   })
   return {
@@ -199,6 +212,10 @@ export async function getStaticProps(context: { params: { id: string } }) {
         choices: post?.choices.map((choice) => {
           return { id: choice.id, name: choice.name }
         }),
+        user: {
+          name: post?.user.name,
+          image: post?.user.image,
+        },
       },
     },
     revalidate: 10,
