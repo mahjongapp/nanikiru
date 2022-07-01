@@ -22,6 +22,7 @@ import Image from 'next/image'
 import { postImage } from '../../lib/upload'
 import { Select, GroupBase } from 'chakra-react-select'
 import { ChoiceGroup, choiceGroups } from '../../lib/choices'
+import { useSession } from 'next-auth/react'
 
 type Inputs = {
   title: string
@@ -43,6 +44,7 @@ type Choice = {
 
 export default function PostEdit() {
   const [imgSending, setImgSending] = useState(false)
+  const { data: session } = useSession()
   const queryClient = useQueryClient()
   const toast = useToast()
   const toastIdRef = useRef<ToastId | null>(null)
@@ -68,6 +70,7 @@ export default function PostEdit() {
           name: choice.value,
         }
       }),
+      userId: session?.user.id as string,
     }),
   )
 

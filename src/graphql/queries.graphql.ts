@@ -13,6 +13,10 @@ export const GetPosts = gql`
         id
         name
       }
+      user {
+        name
+        image
+      }
     }
   }
 `
@@ -28,6 +32,10 @@ export const GetPostById = gql`
         id
         name
       }
+      user {
+        name
+        image
+      }
     }
   }
 `
@@ -38,6 +46,10 @@ export const GetAnswersByPostId = gql`
       body
       choice {
         name
+      }
+      user {
+        name
+        image
       }
     }
   }

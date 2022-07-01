@@ -19,6 +19,13 @@ export const Answer = objectType({
         return ctx.prisma.answer.findUnique({ where: { id: parent.id } }).choice()
       },
     })
+    t.nonNull.string('userId')
+    t.field('user', {
+      type: 'User',
+      resolve(parent, _args, ctx) {
+        return ctx.prisma.answer.findUnique({ where: { id: parent.id } }).user()
+      },
+    })
   },
 })
 
@@ -56,6 +63,7 @@ export const CreateAnswerMutation = extendType({
         body: nonNull(stringArg()),
         postId: nonNull(intArg()),
         choiceId: nonNull(intArg()),
+        userId: nonNull(stringArg()),
       },
       resolve(_parent, args, ctx) {
         return ctx.prisma.answer.create({
@@ -63,6 +71,7 @@ export const CreateAnswerMutation = extendType({
             body: args.body,
             postId: args.postId,
             choiceId: args.choiceId,
+            userId: args.userId,
           },
         })
       },

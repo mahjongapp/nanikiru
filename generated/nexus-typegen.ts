@@ -61,6 +61,7 @@ export interface NexusGenObjects {
     choiceId: number; // Int!
     id: number; // Int!
     postId: number; // Int!
+    userId: string; // String!
   }
   Choice: { // root type
     id: number; // Int!
@@ -75,8 +76,16 @@ export interface NexusGenObjects {
     imgurl: string; // String!
     title: string; // String!
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
+    userId: string; // String!
   }
   Query: {};
+  User: { // root type
+    email?: string | null; // String
+    emailVerified?: NexusGenScalars['DateTime'] | null; // DateTime
+    id: string; // String!
+    image?: string | null; // String
+    name?: string | null; // String
+  }
 }
 
 export interface NexusGenInterfaces {
@@ -97,6 +106,8 @@ export interface NexusGenFieldTypes {
     id: number; // Int!
     post: NexusGenRootTypes['Post'] | null; // Post
     postId: number; // Int!
+    user: NexusGenRootTypes['User'] | null; // User
+    userId: string; // String!
   }
   Choice: { // field return type
     id: number; // Int!
@@ -116,12 +127,22 @@ export interface NexusGenFieldTypes {
     imgurl: string; // String!
     title: string; // String!
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
+    user: NexusGenRootTypes['User'] | null; // User
+    userId: string; // String!
   }
   Query: { // field return type
     answersByPostId: Array<NexusGenRootTypes['Answer'] | null>; // [Answer]!
     hello: string | null; // String
     post: NexusGenRootTypes['Post']; // Post!
     posts: Array<NexusGenRootTypes['Post'] | null>; // [Post]!
+  }
+  User: { // field return type
+    email: string | null; // String
+    emailVerified: NexusGenScalars['DateTime'] | null; // DateTime
+    id: string; // String!
+    image: string | null; // String
+    name: string | null; // String
+    posts: Array<NexusGenRootTypes['Post'] | null> | null; // [Post]
   }
 }
 
@@ -133,6 +154,8 @@ export interface NexusGenFieldTypeNames {
     id: 'Int'
     post: 'Post'
     postId: 'Int'
+    user: 'User'
+    userId: 'String'
   }
   Choice: { // field return type name
     id: 'Int'
@@ -152,11 +175,21 @@ export interface NexusGenFieldTypeNames {
     imgurl: 'String'
     title: 'String'
     updatedAt: 'DateTime'
+    user: 'User'
+    userId: 'String'
   }
   Query: { // field return type name
     answersByPostId: 'Answer'
     hello: 'String'
     post: 'Post'
+    posts: 'Post'
+  }
+  User: { // field return type name
+    email: 'String'
+    emailVerified: 'DateTime'
+    id: 'String'
+    image: 'String'
+    name: 'String'
     posts: 'Post'
   }
 }
@@ -167,12 +200,14 @@ export interface NexusGenArgTypes {
       body: string; // String!
       choiceId: number; // Int!
       postId: number; // Int!
+      userId: string; // String!
     }
     createPost: { // args
       body: string; // String!
       choices: NexusGenInputs['choiceInput'][]; // [choiceInput!]!
       imgurl: string; // String!
       title: string; // String!
+      userId: string; // String!
     }
   }
   Query: {

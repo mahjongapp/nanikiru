@@ -4,6 +4,7 @@ import { Post, PostQuery, PostsQuery, CreatePostMutation, choiceInput } from './
 import { Choice } from './Query/Choice'
 import { Answer, AnswersQuery, CreateAnswerMutation } from './Query/Answer'
 import { GraphQLBigInt, GraphQLDateTime } from 'graphql-scalars'
+import { User } from './Query/User'
 
 const Query = queryType({
   definition(t) {
@@ -13,6 +14,7 @@ const Query = queryType({
 
 export const schema = makeSchema({
   types: [
+    User,
     AnswersQuery,
     Answer,
     Query,

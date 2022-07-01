@@ -20,6 +20,10 @@ const Home: NextPage = () => {
             choices={post?.choices}
             imgurl={post?.imgurl}
             isLink
+            user={{
+              name: post?.user?.name,
+              image: post?.user?.image,
+            }}
           ></PostPreview>
         ))}
       </VStack>

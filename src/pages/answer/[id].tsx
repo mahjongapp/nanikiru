@@ -21,6 +21,7 @@ import { Answer } from '../../components/Answer'
 import { Controller, useForm } from 'react-hook-form'
 import { prisma } from '../../lib/prisma'
 import { GetAnswersByPostIdQuery } from '../../../generated/graphql'
+import { useSession } from 'next-auth/react'
 
 type Input = {
   body: string
@@ -36,6 +37,7 @@ export default function AnswerPage({ post }: Props) {
     reset,
   } = useForm<Input>()
   const toast = useToast()
+  const { data: session } = useSession()
   const queryClient = useQueryClient()
   const router = useRouter()
   const { id } = router.query
@@ -49,6 +51,7 @@ export default function AnswerPage({ post }: Props) {
         body: data.body,
         choiceId: Number(data.choice),
         postId: Number(id),
+        userId: session?.user.id as string,
       })
     },
     {
@@ -62,6 +65,11 @@ export default function AnswerPage({ post }: Props) {
             choice: {
               __typename: 'Choice' as 'Choice',
               name: post.choices.filter((choice) => choice.id === Number(newInput.choice))[0].name,
+            },
+            user: {
+              __typename: 'User' as 'User',
+              name: session?.user.name as string,
+              image: session?.user.image as string,
             },
           }
           return {
@@ -101,6 +109,10 @@ export default function AnswerPage({ post }: Props) {
           body={post.body}
           imgurl={post.imgurl}
           choices={post.choices}
+          user={{
+            name: post?.user?.name,
+            image: post?.user?.image,
+          }}
         />
         <Box>
           <Stack as='form' onSubmit={handleSubmit(onSubmit)}>
@@ -151,6 +163,10 @@ export default function AnswerPage({ post }: Props) {
               isSending={isLoading}
               choice={answer?.choice?.name}
               body={answer?.body}
+              user={{
+                name: answer?.user?.name,
+                image: answer?.user?.image,
+              }}
             />
           ))
         )}
@@ -169,6 +185,10 @@ type Props = {
       id: number
       name: string
     }[]
+    user: {
+      name: string
+      image: string
+    }
   }
 }
 
@@ -179,6 +199,7 @@ export async function getStaticProps(context: { params: { id: string } }) {
     },
     include: {
       choices: true,
+      user: true,
     },
   })
   return {
@@ -191,6 +212,10 @@ export async function getStaticProps(context: { params: { id: string } }) {
         choices: post?.choices.map((choice) => {
           return { id: choice.id, name: choice.name }
         }),
+        user: {
+          name: post?.user.name,
+          image: post?.user.image,
+        },
       },
     },
     revalidate: 10,

@@ -9,6 +9,8 @@ type Answer {
   id: Int!
   post: Post
   postId: Int!
+  user: User
+  userId: String!
 }
 
 """
@@ -29,8 +31,8 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 scalar DateTime
 
 type Mutation {
-  createAnswer(body: String!, choiceId: Int!, postId: Int!): Answer!
-  createPost(body: String!, choices: [choiceInput!]!, imgurl: String!, title: String!): Post!
+  createAnswer(body: String!, choiceId: Int!, postId: Int!, userId: String!): Answer!
+  createPost(body: String!, choices: [choiceInput!]!, imgurl: String!, title: String!, userId: String!): Post!
 }
 
 type Post {
@@ -41,6 +43,8 @@ type Post {
   imgurl: String!
   title: String!
   updatedAt: DateTime!
+  user: User
+  userId: String!
 }
 
 type Query {
@@ -48,6 +52,15 @@ type Query {
   hello: String
   post(id: Int!): Post!
   posts: [Post]!
+}
+
+type User {
+  email: String
+  emailVerified: DateTime
+  id: String!
+  image: String
+  name: String
+  posts: [Post]
 }
 
 input choiceInput {
