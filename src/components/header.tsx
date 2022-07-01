@@ -19,6 +19,7 @@ import {
 import LinkButton from './LinkButton'
 import Link from './ChakraNextLink'
 import { HamburgerIcon, CloseIcon, AddIcon } from '@chakra-ui/icons'
+import { useSession, signIn, signOut } from 'next-auth/react'
 
 import logo from '../assets/images/logo.png'
 
@@ -45,7 +46,7 @@ type Props = {
 
 export default function Header(props: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure()
-
+  const { data: session } = useSession()
   return (
     <>
       <Box boxShadow='md' bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
@@ -78,6 +79,7 @@ export default function Header(props: Props) {
             </HStack>
           </HStack>
           <Flex alignItems={'center'}>
+            {!session && <Button onClick={() => signIn()}>Sign in</Button>}
             {!props?.isPostEdit && (
               <LinkButton
                 href='/postedit'
@@ -92,13 +94,12 @@ export default function Header(props: Props) {
             )}
             <Menu>
               <MenuButton as={Button} rounded={'full'} variant={'link'} cursor={'pointer'} minW={0}>
-                <Avatar size={'sm'} />
+                <Avatar size={'sm'} src={session?.user.image as string} />
               </MenuButton>
               <MenuList>
-                <MenuItem>Profile</MenuItem>
-                <MenuItem>Setting</MenuItem>
+                <MenuItem>マイページ</MenuItem>
                 <MenuDivider />
-                <MenuItem>Logout</MenuItem>
+                <MenuItem onClick={() => signOut()}>Logout</MenuItem>
               </MenuList>
             </Menu>
           </Flex>

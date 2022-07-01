@@ -27,6 +27,8 @@ export type Answer = {
   id: Scalars['Int'];
   post?: Maybe<Post>;
   postId: Scalars['Int'];
+  user?: Maybe<User>;
+  userId: Scalars['String'];
 };
 
 export type Choice = {
@@ -48,6 +50,7 @@ export type MutationCreateAnswerArgs = {
   body: Scalars['String'];
   choiceId: Scalars['Int'];
   postId: Scalars['Int'];
+  userId: Scalars['String'];
 };
 
 
@@ -56,6 +59,7 @@ export type MutationCreatePostArgs = {
   choices: Array<ChoiceInput>;
   imgurl: Scalars['String'];
   title: Scalars['String'];
+  userId: Scalars['String'];
 };
 
 export type Post = {
@@ -67,6 +71,8 @@ export type Post = {
   imgurl: Scalars['String'];
   title: Scalars['String'];
   updatedAt: Scalars['DateTime'];
+  user?: Maybe<User>;
+  userId: Scalars['String'];
 };
 
 export type Query = {
@@ -87,6 +93,16 @@ export type QueryPostArgs = {
   id: Scalars['Int'];
 };
 
+export type User = {
+  __typename?: 'User';
+  email?: Maybe<Scalars['String']>;
+  emailVerified?: Maybe<Scalars['DateTime']>;
+  id: Scalars['String'];
+  image?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  posts?: Maybe<Array<Maybe<Post>>>;
+};
+
 export type ChoiceInput = {
   name: Scalars['String'];
 };
@@ -96,6 +112,7 @@ export type CreatePostMutationVariables = Exact<{
   body: Scalars['String'];
   imgurl: Scalars['String'];
   choices: Array<ChoiceInput> | ChoiceInput;
+  userId: Scalars['String'];
 }>;
 
 
@@ -105,6 +122,7 @@ export type CreateAnswerMutationVariables = Exact<{
   body: Scalars['String'];
   postId: Scalars['Int'];
   choiceId: Scalars['Int'];
+  userId: Scalars['String'];
 }>;
 
 
@@ -113,26 +131,32 @@ export type CreateAnswerMutation = { __typename?: 'Mutation', createAnswer: { __
 export type GetPostsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetPostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', id: number, title: string, body: string, imgurl: string, createdAt: any, updatedAt: any, choices?: Array<{ __typename?: 'Choice', id: number, name: string } | null> | null } | null> };
+export type GetPostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', id: number, title: string, body: string, imgurl: string, createdAt: any, updatedAt: any, choices?: Array<{ __typename?: 'Choice', id: number, name: string } | null> | null, user?: { __typename?: 'User', name?: string | null, image?: string | null } | null } | null> };
 
 export type GetPostByIdQueryVariables = Exact<{
   postId: Scalars['Int'];
 }>;
 
 
-export type GetPostByIdQuery = { __typename?: 'Query', post: { __typename?: 'Post', id: number, title: string, body: string, imgurl: string, choices?: Array<{ __typename?: 'Choice', id: number, name: string } | null> | null } };
+export type GetPostByIdQuery = { __typename?: 'Query', post: { __typename?: 'Post', id: number, title: string, body: string, imgurl: string, choices?: Array<{ __typename?: 'Choice', id: number, name: string } | null> | null, user?: { __typename?: 'User', name?: string | null, image?: string | null } | null } };
 
 export type GetAnswersByPostIdQueryVariables = Exact<{
   postId: Scalars['Int'];
 }>;
 
 
-export type GetAnswersByPostIdQuery = { __typename?: 'Query', answersByPostId: Array<{ __typename?: 'Answer', body: string, choice?: { __typename?: 'Choice', name: string } | null } | null> };
+export type GetAnswersByPostIdQuery = { __typename?: 'Query', answersByPostId: Array<{ __typename?: 'Answer', body: string, choice?: { __typename?: 'Choice', name: string } | null, user?: { __typename?: 'User', name?: string | null, image?: string | null } | null } | null> };
 
 
 export const CreatePostDocument = gql`
-    mutation CreatePost($title: String!, $body: String!, $imgurl: String!, $choices: [choiceInput!]!) {
-  createPost(title: $title, body: $body, imgurl: $imgurl, choices: $choices) {
+    mutation CreatePost($title: String!, $body: String!, $imgurl: String!, $choices: [choiceInput!]!, $userId: String!) {
+  createPost(
+    title: $title
+    body: $body
+    imgurl: $imgurl
+    choices: $choices
+    userId: $userId
+  ) {
     id
     title
     body
@@ -144,8 +168,8 @@ export const CreatePostDocument = gql`
 }
     `;
 export const CreateAnswerDocument = gql`
-    mutation CreateAnswer($body: String!, $postId: Int!, $choiceId: Int!) {
-  createAnswer(body: $body, postId: $postId, choiceId: $choiceId) {
+    mutation CreateAnswer($body: String!, $postId: Int!, $choiceId: Int!, $userId: String!) {
+  createAnswer(body: $body, postId: $postId, choiceId: $choiceId, userId: $userId) {
     id
     body
     postId
@@ -179,6 +203,10 @@ export const GetPostsDocument = gql`
       id
       name
     }
+    user {
+      name
+      image
+    }
   }
 }
     `;
@@ -193,6 +221,10 @@ export const GetPostByIdDocument = gql`
       id
       name
     }
+    user {
+      name
+      image
+    }
   }
 }
     `;
@@ -202,6 +234,10 @@ export const GetAnswersByPostIdDocument = gql`
     body
     choice {
       name
+    }
+    user {
+      name
+      image
     }
   }
 }

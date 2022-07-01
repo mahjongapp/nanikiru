@@ -6,8 +6,9 @@ export const CreatePost = gql`
     $body: String!
     $imgurl: String!
     $choices: [choiceInput!]!
+    $userId: String!
   ) {
-    createPost(title: $title, body: $body, imgurl: $imgurl, choices: $choices) {
+    createPost(title: $title, body: $body, imgurl: $imgurl, choices: $choices, userId: $userId) {
       id
       title
       body
@@ -26,8 +27,8 @@ export const choiceInput = gql`
 `
 
 export const CreateAnswer = gql`
-  mutation CreateAnswer($body: String!, $postId: Int!, $choiceId: Int!) {
-    createAnswer(body: $body, postId: $postId, choiceId: $choiceId) {
+  mutation CreateAnswer($body: String!, $postId: Int!, $choiceId: Int!, $userId: String!) {
+    createAnswer(body: $body, postId: $postId, choiceId: $choiceId, userId: $userId) {
       id
       body
       postId

@@ -14,7 +14,7 @@ type Props = {
 export default function PostPreview({ title, body, choices, imgurl, id, isLink }: Props) {
   if (isLink) {
     return (
-      <Link href={`/answer/${id}`} passHref>
+      <Link href={`/answer/${id}`} passHref prefetch={false}>
         <Box
           _hover={{ bg: 'gray.200' }}
           transitionDuration='200ms'
