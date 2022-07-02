@@ -21,6 +21,7 @@ model Post {
     answers Answer[]
     user User @relation(fields: [userId], references: [id])
     userId String
+    blurDataURL String?
 }
 
 model Choice {

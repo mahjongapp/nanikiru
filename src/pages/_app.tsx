@@ -3,7 +3,15 @@ import { ChakraProvider } from '@chakra-ui/react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { SessionProvider } from 'next-auth/react'
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+      refetchOnWindowFocus: false,
+      staleTime: 3 * 60 * 1000, // 3 minutes
+    },
+  },
+})
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (

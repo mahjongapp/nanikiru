@@ -16,7 +16,7 @@ import { useForm, useFieldArray, Controller } from 'react-hook-form'
 import { useRouter } from 'next/router'
 import { useMutation, useQueryClient } from 'react-query'
 import client from '../../lib/client'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { AddIcon, CheckIcon } from '@chakra-ui/icons'
 import Image from 'next/image'
 import { postImage } from '../../lib/upload'
@@ -43,12 +43,13 @@ type Choice = {
 }
 
 export default function PostEdit() {
-  const [imgSending, setImgSending] = useState(false)
+  const router = useRouter()
   const { data: session } = useSession()
+  const require_login = useToast()
+  const [imgSending, setImgSending] = useState(false)
   const queryClient = useQueryClient()
   const toast = useToast()
   const toastIdRef = useRef<ToastId | null>(null)
-  const router = useRouter()
   const [imgurl, setImgurl] = useState('')
   const { handleSubmit, register, control } = useForm<Inputs>({
     defaultValues: {
@@ -98,9 +99,21 @@ export default function PostEdit() {
     )
   }
 
+  useEffect(() => {
+    if (!session) {
+      require_login({
+        title: 'ログインしてください',
+        status: 'error',
+        position: 'top',
+        isClosable: true,
+      })
+      router.push('/')
+    }
+  }, [router, require_login, session])
+
   return (
     <Stack>
-      {isLoading && <Progress size='xs' isIndeterminate />}
+      {(imgSending || isLoading) && <Progress size='xs' isIndeterminate />}
       <Header isPostEdit></Header>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormControl>

@@ -80,7 +80,7 @@ export default function Header(props: Props) {
           </HStack>
           <Flex alignItems={'center'}>
             {!session && <Button onClick={() => signIn()}>Sign in</Button>}
-            {!props?.isPostEdit && (
+            {!props?.isPostEdit && session && (
               <LinkButton
                 href='/postedit'
                 variant={'solid'}
@@ -97,9 +97,17 @@ export default function Header(props: Props) {
                 <Avatar size={'sm'} src={session?.user.image as string} />
               </MenuButton>
               <MenuList>
-                <MenuItem>マイページ</MenuItem>
-                <MenuDivider />
-                <MenuItem onClick={() => signOut()}>Logout</MenuItem>
+                {session && (
+                  <>
+                    <MenuItem>マイページ</MenuItem>
+                    <MenuDivider />
+                  </>
+                )}
+                {session ? (
+                  <MenuItem onClick={() => signOut()}>Logout</MenuItem>
+                ) : (
+                  <MenuItem onClick={() => signIn()}>Sign in</MenuItem>
+                )}
               </MenuList>
             </Menu>
           </Flex>
