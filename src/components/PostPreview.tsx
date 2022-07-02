@@ -2,6 +2,7 @@ import { Avatar, Badge, Box, HStack } from '@chakra-ui/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ReactNode } from 'react'
+import MahjongTailIcon from './MahjongTailIcon'
 
 type Props = {
   title?: string
@@ -41,12 +42,16 @@ export default function PostPreview({ user, title, body, choices, imgurl, id, is
           </HStack>
         )}
         <Box>{title}</Box>
-        {imgurl && <Image width={450} height={300} src={imgurl} objectFit={'contain'} />}
+        {imgurl && (
+          <Image width={450} height={300} alt='何切るの画像' src={imgurl} objectFit={'contain'} />
+        )}
         <Box></Box>
         <Box>{body}</Box>
-        {choices?.map((choice, index) => (
-          <Badge key={index}>{choice?.name}</Badge>
-        ))}
+        {choices &&
+          choices.map(
+            (choice, index) =>
+              choice && <MahjongTailIcon key={index} name={choice.name} width={60} />,
+          )}
       </Box>
     </WrapByLink>
   )
