@@ -1,8 +1,9 @@
 import { Text, Stack, HStack, Box, Avatar } from '@chakra-ui/react'
+import MahjongTailIcon from './MahjongTailIcon'
 
 type Props = {
-  choice?: String
-  body?: String
+  choice?: string
+  body?: string
   isSending: boolean
   index: number
   user: {
@@ -20,7 +21,7 @@ export function Answer({ user, index, isSending, choice, body }: Props) {
           <Box>{user.name}</Box>
         </HStack>
       )}
-      <Text color={index === 0 && isSending ? 'blackAlpha.600' : 'black'}>選択肢: {choice}</Text>
+      <Box>{choice && <MahjongTailIcon name={choice} width={45} />}</Box>
       <Text color={index === 0 && isSending ? 'blackAlpha.600' : 'black'}>{body}</Text>
     </Stack>
   )

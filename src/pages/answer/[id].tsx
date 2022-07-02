@@ -22,6 +22,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { prisma } from '../../lib/prisma'
 import { GetAnswersByPostIdQuery } from '../../../generated/graphql'
 import { useSession } from 'next-auth/react'
+import MahjongTailIcon from '../../components/MahjongTailIcon'
 
 type Input = {
   body: string
@@ -126,7 +127,7 @@ export default function AnswerPage({ post }: Props) {
                     <Stack direction='row'>
                       {post.choices.map((choice, index) => (
                         <Radio key={index} value={choice?.id.toString()}>
-                          {choice?.name}
+                          {choice && <MahjongTailIcon name={choice.name} width={30} />}
                         </Radio>
                       ))}
                     </Stack>

@@ -116,30 +116,30 @@ export const choiceGroups: ChoiceGroup[] = [
   },
   {
     label: '字牌　東',
-    value: '東',
+    value: 'ton',
   },
   {
     label: '字牌　南',
-    value: '南',
+    value: 'nan',
   },
   {
     label: '字牌　西',
-    value: '西',
+    value: 'sya-',
   },
   {
     label: '字牌　北',
-    value: '北',
+    value: 'pe-',
   },
   {
     label: '字牌　白',
-    value: '白',
+    value: 'haku',
   },
   {
     label: '字牌　發',
-    value: '發',
+    value: 'hatu',
   },
   {
     label: '字牌　中',
-    value: '中',
+    value: 'chun',
   },
 ]
