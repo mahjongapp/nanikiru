@@ -79,8 +79,9 @@ export type Query = {
   __typename?: 'Query';
   answersByPostId: Array<Maybe<Answer>>;
   hello?: Maybe<Scalars['String']>;
-  post: Post;
+  post?: Maybe<Post>;
   posts: Array<Maybe<Post>>;
+  postsByUserId?: Maybe<Array<Maybe<Post>>>;
 };
 
 
@@ -91,6 +92,11 @@ export type QueryAnswersByPostIdArgs = {
 
 export type QueryPostArgs = {
   id: Scalars['Int'];
+};
+
+
+export type QueryPostsByUserIdArgs = {
+  id: Scalars['String'];
 };
 
 export type User = {
@@ -138,7 +144,7 @@ export type GetPostByIdQueryVariables = Exact<{
 }>;
 
 
-export type GetPostByIdQuery = { __typename?: 'Query', post: { __typename?: 'Post', id: number, title: string, body: string, imgurl: string, choices?: Array<{ __typename?: 'Choice', id: number, name: string } | null> | null, user?: { __typename?: 'User', name?: string | null, image?: string | null } | null } };
+export type GetPostByIdQuery = { __typename?: 'Query', post?: { __typename?: 'Post', id: number, title: string, body: string, imgurl: string, choices?: Array<{ __typename?: 'Choice', id: number, name: string } | null> | null, user?: { __typename?: 'User', name?: string | null, image?: string | null } | null } | null };
 
 export type GetAnswersByPostIdQueryVariables = Exact<{
   postId: Scalars['Int'];
@@ -146,6 +152,13 @@ export type GetAnswersByPostIdQueryVariables = Exact<{
 
 
 export type GetAnswersByPostIdQuery = { __typename?: 'Query', answersByPostId: Array<{ __typename?: 'Answer', body: string, choice?: { __typename?: 'Choice', name: string } | null, user?: { __typename?: 'User', name?: string | null, image?: string | null } | null } | null> };
+
+export type GetPostsByUserIdQueryVariables = Exact<{
+  userId: Scalars['String'];
+}>;
+
+
+export type GetPostsByUserIdQuery = { __typename?: 'Query', postsByUserId?: Array<{ __typename?: 'Post', id: number, title: string, body: string, imgurl: string, createdAt: any, updatedAt: any, choices?: Array<{ __typename?: 'Choice', id: number, name: string } | null> | null, user?: { __typename?: 'User', name?: string | null, image?: string | null } | null } | null> | null };
 
 
 export const CreatePostDocument = gql`
@@ -242,6 +255,26 @@ export const GetAnswersByPostIdDocument = gql`
   }
 }
     `;
+export const GetPostsByUserIdDocument = gql`
+    query GetPostsByUserId($userId: String!) {
+  postsByUserId(id: $userId) {
+    id
+    title
+    body
+    imgurl
+    createdAt
+    updatedAt
+    choices {
+      id
+      name
+    }
+    user {
+      name
+      image
+    }
+  }
+}
+    `;
 
 export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;
 
@@ -264,6 +297,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     GetAnswersByPostId(variables: GetAnswersByPostIdQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetAnswersByPostIdQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetAnswersByPostIdQuery>(GetAnswersByPostIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetAnswersByPostId', 'query');
+    },
+    GetPostsByUserId(variables: GetPostsByUserIdQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetPostsByUserIdQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetPostsByUserIdQuery>(GetPostsByUserIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetPostsByUserId', 'query');
     }
   };
 }

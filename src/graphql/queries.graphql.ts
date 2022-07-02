@@ -54,3 +54,24 @@ export const GetAnswersByPostId = gql`
     }
   }
 `
+
+export const GetPostByUserId = gql`
+  query GetPostsByUserId($userId: String!) {
+    postsByUserId(id: $userId) {
+      id
+      title
+      body
+      imgurl
+      createdAt
+      updatedAt
+      choices {
+        id
+        name
+      }
+      user {
+        name
+        image
+      }
+    }
+  }
+`

@@ -22,6 +22,7 @@ import { HamburgerIcon, CloseIcon, AddIcon } from '@chakra-ui/icons'
 import { useSession, signIn, signOut } from 'next-auth/react'
 
 import logo from '../assets/images/logo.png'
+import { useRouter } from 'next/router'
 
 const Links = ['MANZU', 'PINZU', 'SOUZU']
 
@@ -47,6 +48,7 @@ type Props = {
 export default function Header(props: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { data: session } = useSession()
+  const router = useRouter()
   return (
     <>
       <Box boxShadow='md' bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
@@ -80,6 +82,11 @@ export default function Header(props: Props) {
           </HStack>
           <Flex alignItems={'center'}>
             {!session && <Button onClick={() => signIn()}>Sign in</Button>}
+            {session && (
+              <LinkButton href='/mypage' variant={'solid'} colorScheme={'green'} size={'sm'} mr={2}>
+                マイページ
+              </LinkButton>
+            )}
             {!props?.isPostEdit && (
               <LinkButton
                 href='/postedit'
@@ -97,7 +104,7 @@ export default function Header(props: Props) {
                 <Avatar size={'sm'} src={session?.user.image as string} />
               </MenuButton>
               <MenuList>
-                <MenuItem>マイページ</MenuItem>
+                <MenuItem onClick={() => router.push('/mypage')}>マイページ</MenuItem>
                 <MenuDivider />
                 <MenuItem onClick={() => signOut()}>Logout</MenuItem>
               </MenuList>

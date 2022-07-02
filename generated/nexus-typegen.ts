@@ -133,8 +133,9 @@ export interface NexusGenFieldTypes {
   Query: { // field return type
     answersByPostId: Array<NexusGenRootTypes['Answer'] | null>; // [Answer]!
     hello: string | null; // String
-    post: NexusGenRootTypes['Post']; // Post!
+    post: NexusGenRootTypes['Post'] | null; // Post
     posts: Array<NexusGenRootTypes['Post'] | null>; // [Post]!
+    postsByUserId: Array<NexusGenRootTypes['Post'] | null> | null; // [Post]
   }
   User: { // field return type
     email: string | null; // String
@@ -183,6 +184,7 @@ export interface NexusGenFieldTypeNames {
     hello: 'String'
     post: 'Post'
     posts: 'Post'
+    postsByUserId: 'Post'
   }
   User: { // field return type name
     email: 'String'
@@ -216,6 +218,9 @@ export interface NexusGenArgTypes {
     }
     post: { // args
       id: number; // Int!
+    }
+    postsByUserId: { // args
+      id: string; // String!
     }
   }
 }
