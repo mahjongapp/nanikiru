@@ -8,6 +8,7 @@ import {
   extendInputType,
   intArg,
 } from 'nexus'
+import { getPlaiceholder } from 'plaiceholder'
 
 export const Post = objectType({
   name: 'Post',
@@ -18,6 +19,7 @@ export const Post = objectType({
     t.nonNull.string('imgurl')
     t.nonNull.datetime('createdAt')
     t.nonNull.datetime('updatedAt')
+    t.string('blurDataURL')
     t.list.field('choices', {
       type: 'Choice',
       resolve(parent, _args, ctx) {
@@ -106,7 +108,9 @@ export const CreatePostMutation = extendType({
         choices: nonNull(list(nonNull('choiceInput'))),
         userId: nonNull(stringArg()),
       },
-      resolve(_parent, args, ctx) {
+      async resolve(_parent, args, ctx) {
+        const { base64 } = await getPlaiceholder(args.imgurl, { size: 10 })
+        console.log(base64)
         return ctx.prisma.post.create({
           data: {
             title: args.title,
@@ -119,6 +123,7 @@ export const CreatePostMutation = extendType({
               create: [],
             },
             userId: args.userId,
+            blurDataURL: base64,
           },
         })
       },

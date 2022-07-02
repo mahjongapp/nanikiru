@@ -103,6 +103,7 @@ export default function AnswerPage({ post }: Props) {
 
       <VStack>
         <PostPreview
+          blurDataURL={post.blurDataURL}
           id={post.id}
           title={post.title}
           body={post.body}
@@ -188,6 +189,7 @@ type Props = {
       name: string
       image: string
     }
+    blurDataURL: string | null | undefined
   }
 }
 
@@ -215,6 +217,7 @@ export async function getStaticProps(context: { params: { id: string } }) {
           name: post?.user.name,
           image: post?.user.image,
         },
+        blurDataURL: post?.blurDataURL,
       },
     },
     revalidate: 10,

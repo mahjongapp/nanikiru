@@ -1,4 +1,4 @@
-import { Avatar, Badge, Box, HStack } from '@chakra-ui/react'
+import { Avatar, Box, HStack } from '@chakra-ui/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ReactNode } from 'react'
@@ -16,9 +16,19 @@ type Props = {
     name: string | null | undefined
     image: string | null | undefined
   }
+  blurDataURL: string | null | undefined
 }
 
-export default function PostPreview({ user, title, body, choices, imgurl, id, isLink }: Props) {
+export default function PostPreview({
+  blurDataURL,
+  user,
+  title,
+  body,
+  choices,
+  imgurl,
+  id,
+  isLink,
+}: Props) {
   const WrapByLink = ({ children }: { children: ReactNode }) =>
     isLink ? (
       <Link href={`/answer/${id}`} passHref prefetch={false}>
@@ -38,9 +48,20 @@ export default function PostPreview({ user, title, body, choices, imgurl, id, is
       >
         <UserBar {...user} />
         <Box>{title}</Box>
-        {imgurl && (
-          <Image width={450} height={300} alt='何切るの画像' src={imgurl} objectFit={'contain'} />
-        )}
+        {imgurl &&
+          (blurDataURL ? (
+            <Image
+              blurDataURL={blurDataURL}
+              placeholder='blur'
+              width={450}
+              height={300}
+              alt='何切るの画像'
+              src={imgurl}
+              objectFit={'contain'}
+            />
+          ) : (
+            <Image width={450} height={300} alt='何切るの画像' src={imgurl} objectFit={'contain'} />
+          ))}
         <Box></Box>
         <Box>{body}</Box>
         {choices &&

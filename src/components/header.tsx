@@ -87,7 +87,7 @@ export default function Header(props: Props) {
                 マイページ
               </LinkButton>
             )}
-            {!props?.isPostEdit && (
+            {!props?.isPostEdit && session && (
               <LinkButton
                 href='/postedit'
                 variant={'solid'}
@@ -104,9 +104,17 @@ export default function Header(props: Props) {
                 <Avatar size={'sm'} src={session?.user.image as string} />
               </MenuButton>
               <MenuList>
-                <MenuItem onClick={() => router.push('/mypage')}>マイページ</MenuItem>
-                <MenuDivider />
-                <MenuItem onClick={() => signOut()}>Logout</MenuItem>
+                {session && (
+                  <>
+                    <MenuItem onClick={() => router.push('/mypage')}>マイページ</MenuItem>
+                    <MenuDivider />
+                  </>
+                )}
+                {session ? (
+                  <MenuItem onClick={() => signOut()}>Logout</MenuItem>
+                ) : (
+                  <MenuItem onClick={() => signIn()}>Sign in</MenuItem>
+                )}
               </MenuList>
             </Menu>
           </Flex>
