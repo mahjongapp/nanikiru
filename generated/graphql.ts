@@ -144,7 +144,8 @@ export type GetPostByIdQueryVariables = Exact<{
   postId: Scalars['Int'];
 }>;
 
-export type GetPostByIdQuery = { __typename?: 'Query', post: { __typename?: 'Post', id: number, title: string, body: string, imgurl: string, blurDataURL?: string | null, choices?: Array<{ __typename?: 'Choice', id: number, name: string } | null> | null, user?: { __typename?: 'User', name?: string | null, image?: string | null } | null } };
+
+export type GetPostByIdQuery = { __typename?: 'Query', post?: { __typename?: 'Post', id: number, title: string, body: string, imgurl: string, blurDataURL?: string | null, choices?: Array<{ __typename?: 'Choice', id: number, name: string } | null> | null, user?: { __typename?: 'User', name?: string | null, image?: string | null } | null } | null };
 
 export type GetAnswersByPostIdQueryVariables = Exact<{
   postId: Scalars['Int'];
@@ -158,7 +159,7 @@ export type GetPostsByUserIdQueryVariables = Exact<{
 }>;
 
 
-export type GetPostsByUserIdQuery = { __typename?: 'Query', postsByUserId?: Array<{ __typename?: 'Post', id: number, title: string, body: string, imgurl: string, createdAt: any, updatedAt: any, choices?: Array<{ __typename?: 'Choice', id: number, name: string } | null> | null, user?: { __typename?: 'User', name?: string | null, image?: string | null } | null } | null> | null };
+export type GetPostsByUserIdQuery = { __typename?: 'Query', postsByUserId?: Array<{ __typename?: 'Post', id: number, title: string, body: string, imgurl: string, createdAt: any, updatedAt: any, blurDataURL?: string | null, choices?: Array<{ __typename?: 'Choice', id: number, name: string } | null> | null, user?: { __typename?: 'User', name?: string | null, image?: string | null } | null } | null> | null };
 
 
 export const CreatePostDocument = gql`
@@ -266,6 +267,7 @@ export const GetPostsByUserIdDocument = gql`
     imgurl
     createdAt
     updatedAt
+    blurDataURL
     choices {
       id
       name

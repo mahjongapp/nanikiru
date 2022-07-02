@@ -66,6 +66,7 @@ export const GetPostByUserId = gql`
       imgurl
       createdAt
       updatedAt
+      blurDataURL
       choices {
         id
         name
