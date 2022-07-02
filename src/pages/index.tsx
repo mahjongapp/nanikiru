@@ -20,6 +20,7 @@ const Home: NextPage = () => {
             choices={post?.choices}
             imgurl={post?.imgurl}
             isLink
+            blurDataURL={post?.blurDataURL}
             user={{
               name: post?.user?.name,
               image: post?.user?.image,
