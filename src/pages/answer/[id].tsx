@@ -78,7 +78,7 @@ export default function AnswerPage({ post }: Props) {
         })
         return { previousAnswers }
       },
-      onError: (err, newAnswer, context) => {
+      onError: (_err, newAnswer, context) => {
         toast({
           title: '送信失敗',
           status: 'error',
