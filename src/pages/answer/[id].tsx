@@ -5,9 +5,7 @@ import {
   Box,
   Button,
   FormControl,
-  FormErrorMessage,
   FormLabel,
-  Progress,
   Radio,
   RadioGroup,
   Stack,
@@ -80,7 +78,7 @@ export default function AnswerPage({ post }: Props) {
         })
         return { previousAnswers }
       },
-      onError: (err, newAnswer, context) => {
+      onError: (_err, newAnswer, context) => {
         toast({
           title: '送信失敗',
           status: 'error',

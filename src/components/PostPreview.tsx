@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ReactNode } from 'react'
 import MahjongTailIcon from './MahjongTailIcon'
+import UserBar from './UserBar'
 
 type Props = {
   title?: string
@@ -11,7 +12,7 @@ type Props = {
   imgurl?: string
   id?: number
   isLink?: boolean
-  user?: {
+  user: {
     name: string | null | undefined
     image: string | null | undefined
   }
@@ -45,12 +46,7 @@ export default function PostPreview({
         bg='gray.100'
         w={[380, 420, 460, 500]}
       >
-        {user && (
-          <HStack>
-            {user.image && <Avatar size={'sm'} src={user.image} />}
-            <Box>{user.name}</Box>
-          </HStack>
-        )}
+        <UserBar {...user} />
         <Box>{title}</Box>
         {imgurl &&
           (blurDataURL ? (

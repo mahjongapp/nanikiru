@@ -1,6 +1,13 @@
 import { queryType, makeSchema, asNexusMethod } from 'nexus'
 import path from 'path'
-import { Post, PostQuery, PostsQuery, CreatePostMutation, choiceInput } from './Query/Post'
+import {
+  Post,
+  PostQuery,
+  PostsQuery,
+  CreatePostMutation,
+  choiceInput,
+  PostsByUserIdQuery,
+} from './Query/Post'
 import { Choice } from './Query/Choice'
 import { Answer, AnswersQuery, CreateAnswerMutation } from './Query/Answer'
 import { GraphQLBigInt, GraphQLDateTime } from 'graphql-scalars'
@@ -14,6 +21,7 @@ const Query = queryType({
 
 export const schema = makeSchema({
   types: [
+    PostsByUserIdQuery,
     User,
     AnswersQuery,
     Answer,

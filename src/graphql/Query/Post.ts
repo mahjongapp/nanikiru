@@ -55,18 +55,42 @@ export const PostsQuery = extendType({
 export const PostQuery = extendType({
   type: 'Query',
   definition(t) {
-    t.nonNull.field('post', {
+    t.field('post', {
       type: 'Post',
       args: {
         id: nonNull(intArg()),
       },
-      // @ts-ignore
       resolve(_parent, args, ctx) {
         return ctx.prisma.post.findUnique({
           where: {
             id: args.id,
           },
         })
+      },
+    })
+  },
+})
+
+export const PostsByUserIdQuery = extendType({
+  type: 'Query',
+  definition(t) {
+    t.list.field('postsByUserId', {
+      type: 'Post',
+      args: {
+        id: nonNull(stringArg()),
+      },
+      resolve(_parent, args, ctx) {
+        return ctx.prisma.user
+          .findUnique({
+            where: {
+              id: args.id,
+            },
+          })
+          .posts({
+            orderBy: {
+              updatedAt: 'desc',
+            },
+          })
       },
     })
   },
