@@ -1,4 +1,4 @@
-import { Avatar, Box, HStack } from '@chakra-ui/react'
+import { Avatar, Box, Center, HStack, Stack } from '@chakra-ui/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ReactNode } from 'react'
@@ -44,7 +44,7 @@ export default function PostPreview({
         transitionDuration='200ms'
         as='a'
         bg='gray.100'
-        w={[380, 420, 460, 500]}
+        w={{ base: '95%', md: 730, lg: 924 }}
       >
         <UserBar {...user} />
         <Box>{title}</Box>
@@ -53,14 +53,14 @@ export default function PostPreview({
             <Image
               blurDataURL={blurDataURL}
               placeholder='blur'
-              width={450}
-              height={300}
+              width={924}
+              height={600}
               alt='何切るの画像'
               src={imgurl}
               objectFit={'contain'}
             />
           ) : (
-            <Image width={450} height={300} alt='何切るの画像' src={imgurl} objectFit={'contain'} />
+            <Image width={924} height={600} alt='何切るの画像' src={imgurl} objectFit={'contain'} />
           ))}
         <Box></Box>
         <Box>{body}</Box>

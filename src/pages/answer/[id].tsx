@@ -98,10 +98,10 @@ export default function AnswerPage({ post }: Props) {
   }
 
   return (
-    <Stack>
+    <Stack spacing={8}>
       <Header />
 
-      <VStack>
+      <VStack spacing={8}>
         <PostPreview
           blurDataURL={post.blurDataURL}
           id={post.id}
