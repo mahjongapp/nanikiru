@@ -40,6 +40,7 @@ export default function MyPage() {
                           body={post.body}
                           key={index}
                           user={{ name: post.user?.name, image: post.user?.image }}
+                          id={post.id}
                         />
                       ),
                   )}
