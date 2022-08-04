@@ -45,6 +45,7 @@ export const GetPostById = gql`
 export const GetAnswersByPostId = gql`
   query GetAnswersByPostId($postId: Int!) {
     answersByPostId(postId: $postId) {
+      id
       body
       choice {
         name
@@ -75,6 +76,23 @@ export const GetPostByUserId = gql`
         name
         image
       }
+    }
+  }
+`
+
+export const GetCommentsByAnswerId = gql`
+  query GetCommentsByAnswerId($answerId: Int!) {
+    commentsByAnswerId(id: $answerId) {
+      id
+      body
+      userId
+      user {
+        id
+        name
+        email
+        image
+      }
+      answerId
     }
   }
 `

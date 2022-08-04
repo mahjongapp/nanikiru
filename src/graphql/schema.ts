@@ -12,7 +12,7 @@ import { Choice } from './Query/Choice'
 import { Answer, AnswersQuery, CreateAnswerMutation } from './Query/Answer'
 import { GraphQLBigInt, GraphQLDateTime } from 'graphql-scalars'
 import { User } from './Query/User'
-import { Comment, CommentsByAnswerId } from './Query/Comment'
+import { Comment, CommentsByAnswerId, CreateComment } from './Query/Comment'
 
 const Query = queryType({
   definition(t) {
@@ -24,6 +24,7 @@ export const schema = makeSchema({
   types: [
     Comment,
     CommentsByAnswerId,
+    CreateComment,
     PostsByUserIdQuery,
     User,
     AnswersQuery,

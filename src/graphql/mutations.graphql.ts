@@ -49,3 +49,19 @@ export const CreateAnswer = gql`
     }
   }
 `
+
+export const CreateComment = gql`
+  mutation CreateComment($body: String!, $userId: String!, $answerId: Int!) {
+    createComment(body: $body, userId: $userId, answerId: $answerId) {
+      id
+      body
+      user {
+        name
+        image
+      }
+      answer {
+        body
+      }
+    }
+  }
+`

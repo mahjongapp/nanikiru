@@ -132,6 +132,7 @@ export interface NexusGenFieldTypes {
   }
   Mutation: { // field return type
     createAnswer: NexusGenRootTypes['Answer']; // Answer!
+    createComment: NexusGenRootTypes['Comment']; // Comment!
     createPost: NexusGenRootTypes['Post']; // Post!
   }
   Post: { // field return type
@@ -191,6 +192,7 @@ export interface NexusGenFieldTypeNames {
   }
   Mutation: { // field return type name
     createAnswer: 'Answer'
+    createComment: 'Comment'
     createPost: 'Post'
   }
   Post: { // field return type name
@@ -229,6 +231,11 @@ export interface NexusGenArgTypes {
       body: string; // String!
       choiceId: number; // Int!
       postId: number; // Int!
+      userId: string; // String!
+    }
+    createComment: { // args
+      answerId: number; // Int!
+      body: string; // String!
       userId: string; // String!
     }
     createPost: { // args

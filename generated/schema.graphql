@@ -41,6 +41,7 @@ scalar DateTime
 
 type Mutation {
   createAnswer(body: String!, choiceId: Int!, postId: Int!, userId: String!): Answer!
+  createComment(answerId: Int!, body: String!, userId: String!): Comment!
   createPost(body: String!, choices: [choiceInput!]!, imgurl: String!, title: String!, userId: String!): Post!
 }
 
