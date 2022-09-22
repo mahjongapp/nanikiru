@@ -33,7 +33,6 @@ export default function MyPage() {
                       post && (
                         <PostPreview
                           isLink
-                          blurDataURL={post.blurDataURL}
                           choices={post.choices?.map((choice) => choice && { name: choice?.name })}
                           imgurl={post.imgurl}
                           title={post.title}
