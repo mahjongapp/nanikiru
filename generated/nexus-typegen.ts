@@ -76,7 +76,6 @@ export interface NexusGenObjects {
   }
   Mutation: {};
   Post: { // root type
-    blurDataURL?: string | null; // String
     body: string; // String!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: number; // Int!
@@ -136,7 +135,6 @@ export interface NexusGenFieldTypes {
     createPost: NexusGenRootTypes['Post']; // Post!
   }
   Post: { // field return type
-    blurDataURL: string | null; // String
     body: string; // String!
     choices: Array<NexusGenRootTypes['Choice'] | null> | null; // [Choice]
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -196,7 +194,6 @@ export interface NexusGenFieldTypeNames {
     createPost: 'Post'
   }
   Post: { // field return type name
-    blurDataURL: 'String'
     body: 'String'
     choices: 'Choice'
     createdAt: 'DateTime'

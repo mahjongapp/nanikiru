@@ -9,7 +9,6 @@ export const GetPosts = gql`
       imgurl
       createdAt
       updatedAt
-      blurDataURL
       choices {
         id
         name
@@ -29,7 +28,6 @@ export const GetPostById = gql`
       title
       body
       imgurl
-      blurDataURL
       choices {
         id
         name
@@ -67,7 +65,6 @@ export const GetPostByUserId = gql`
       imgurl
       createdAt
       updatedAt
-      blurDataURL
       choices {
         id
         name

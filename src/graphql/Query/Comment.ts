@@ -39,7 +39,7 @@ export const CommentsByAnswerId = extendType({
           })
           .comments({
             orderBy: {
-              updatedAt: 'desc',
+              updatedAt: 'asc',
             },
           })
       },

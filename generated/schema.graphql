@@ -46,7 +46,6 @@ type Mutation {
 }
 
 type Post {
-  blurDataURL: String
   body: String!
   choices: [Choice]
   createdAt: DateTime!
