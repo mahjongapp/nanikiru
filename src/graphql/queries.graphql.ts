@@ -9,7 +9,6 @@ export const GetPosts = gql`
       imgurl
       createdAt
       updatedAt
-      blurDataURL
       choices {
         id
         name
@@ -29,7 +28,6 @@ export const GetPostById = gql`
       title
       body
       imgurl
-      blurDataURL
       choices {
         id
         name
@@ -45,6 +43,7 @@ export const GetPostById = gql`
 export const GetAnswersByPostId = gql`
   query GetAnswersByPostId($postId: Int!) {
     answersByPostId(postId: $postId) {
+      id
       body
       choice {
         name
@@ -66,7 +65,6 @@ export const GetPostByUserId = gql`
       imgurl
       createdAt
       updatedAt
-      blurDataURL
       choices {
         id
         name
@@ -75,6 +73,23 @@ export const GetPostByUserId = gql`
         name
         image
       }
+    }
+  }
+`
+
+export const GetCommentsByAnswerId = gql`
+  query GetCommentsByAnswerId($answerId: Int!) {
+    commentsByAnswerId(id: $answerId) {
+      id
+      body
+      userId
+      user {
+        id
+        name
+        email
+        image
+      }
+      answerId
     }
   }
 `

@@ -16,19 +16,9 @@ type Props = {
     name: string | null | undefined
     image: string | null | undefined
   }
-  blurDataURL: string | null | undefined
 }
 
-export default function PostPreview({
-  blurDataURL,
-  user,
-  title,
-  body,
-  choices,
-  imgurl,
-  id,
-  isLink,
-}: Props) {
+export default function PostPreview({ user, title, body, choices, imgurl, id, isLink }: Props) {
   const WrapByLink = ({ children }: { children: ReactNode }) =>
     isLink ? (
       <Link href={`/answer/${id}`} passHref prefetch={false}>
@@ -48,20 +38,9 @@ export default function PostPreview({
       >
         <UserBar {...user} />
         <Box>{title}</Box>
-        {imgurl &&
-          (blurDataURL ? (
-            <Image
-              blurDataURL={blurDataURL}
-              placeholder='blur'
-              width={924}
-              height={600}
-              alt='何切るの画像'
-              src={imgurl}
-              objectFit={'contain'}
-            />
-          ) : (
-            <Image width={924} height={600} alt='何切るの画像' src={imgurl} objectFit={'contain'} />
-          ))}
+        {imgurl && (
+          <Image width={924} height={600} alt='何切るの画像' src={imgurl} objectFit={'contain'} />
+        )}
         <Box></Box>
         <Box>{body}</Box>
         {choices &&

@@ -60,6 +60,7 @@ export default function AnswerPage({ post }: Props) {
         queryClient.setQueryData<GetAnswersByPostIdQuery>(['GetAnswersByPostId', id], (old) => {
           const newAnswer = {
             __typename: 'Answer' as 'Answer',
+            id: NaN,
             body: newInput.body,
             choice: {
               __typename: 'Choice' as 'Choice',
@@ -103,7 +104,6 @@ export default function AnswerPage({ post }: Props) {
 
       <VStack spacing={8}>
         <PostPreview
-          blurDataURL={post.blurDataURL}
           id={post.id}
           title={post.title}
           body={post.body}
@@ -137,9 +137,9 @@ export default function AnswerPage({ post }: Props) {
                 }}
               />
               <Box>{errors.choice && errors.choice.message}</Box>
-              <FormLabel>コメント</FormLabel>
-              <Textarea {...register('body', { required: true })} />
-              <Box>{errors.body && 'コメントを入力して下さい'}</Box>
+              <FormLabel>理由</FormLabel>
+              <Textarea placeholder='理由を入力' {...register('body', { required: true })} />
+              <Box>{errors.body && '理由を入力して下さい'}</Box>
             </FormControl>
             <Button
               disabled={isLoading}
@@ -156,19 +156,23 @@ export default function AnswerPage({ post }: Props) {
         {isAnswerLoading ? (
           <Box>loading...</Box>
         ) : (
-          answers?.answersByPostId.map((answer, index) => (
-            <Answer
-              key={index}
-              index={index}
-              isSending={isLoading}
-              choice={answer?.choice?.name}
-              body={answer?.body}
-              user={{
-                name: answer?.user?.name,
-                image: answer?.user?.image,
-              }}
-            />
-          ))
+          answers?.answersByPostId.map(
+            (answer, index) =>
+              answer && (
+                <Answer
+                  key={index}
+                  index={index}
+                  id={answer.id}
+                  isSending={isLoading}
+                  choice={answer.choice?.name}
+                  body={answer.body}
+                  user={{
+                    name: answer.user?.name,
+                    image: answer.user?.image,
+                  }}
+                />
+              ),
+          )
         )}
       </VStack>
     </Stack>
@@ -217,7 +221,6 @@ export async function getStaticProps(context: { params: { id: string } }) {
           name: post?.user.name,
           image: post?.user.image,
         },
-        blurDataURL: post?.blurDataURL,
       },
     },
     revalidate: 10,

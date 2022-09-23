@@ -68,9 +68,14 @@ export interface NexusGenObjects {
     name: string; // String!
     postId: number; // Int!
   }
+  Comment: { // root type
+    answerId: number; // Int!
+    body: string; // String!
+    id: string; // String!
+    userId: string; // String!
+  }
   Mutation: {};
   Post: { // root type
-    blurDataURL?: string | null; // String
     body: string; // String!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: number; // Int!
@@ -116,12 +121,20 @@ export interface NexusGenFieldTypes {
     post: NexusGenRootTypes['Post'] | null; // Post
     postId: number; // Int!
   }
+  Comment: { // field return type
+    answer: NexusGenRootTypes['Answer'] | null; // Answer
+    answerId: number; // Int!
+    body: string; // String!
+    id: string; // String!
+    user: NexusGenRootTypes['User'] | null; // User
+    userId: string; // String!
+  }
   Mutation: { // field return type
     createAnswer: NexusGenRootTypes['Answer']; // Answer!
+    createComment: NexusGenRootTypes['Comment']; // Comment!
     createPost: NexusGenRootTypes['Post']; // Post!
   }
   Post: { // field return type
-    blurDataURL: string | null; // String
     body: string; // String!
     choices: Array<NexusGenRootTypes['Choice'] | null> | null; // [Choice]
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -134,6 +147,7 @@ export interface NexusGenFieldTypes {
   }
   Query: { // field return type
     answersByPostId: Array<NexusGenRootTypes['Answer'] | null>; // [Answer]!
+    commentsByAnswerId: Array<NexusGenRootTypes['Comment'] | null> | null; // [Comment]
     hello: string | null; // String
     post: NexusGenRootTypes['Post'] | null; // Post
     posts: Array<NexusGenRootTypes['Post'] | null>; // [Post]!
@@ -166,12 +180,20 @@ export interface NexusGenFieldTypeNames {
     post: 'Post'
     postId: 'Int'
   }
+  Comment: { // field return type name
+    answer: 'Answer'
+    answerId: 'Int'
+    body: 'String'
+    id: 'String'
+    user: 'User'
+    userId: 'String'
+  }
   Mutation: { // field return type name
     createAnswer: 'Answer'
+    createComment: 'Comment'
     createPost: 'Post'
   }
   Post: { // field return type name
-    blurDataURL: 'String'
     body: 'String'
     choices: 'Choice'
     createdAt: 'DateTime'
@@ -184,6 +206,7 @@ export interface NexusGenFieldTypeNames {
   }
   Query: { // field return type name
     answersByPostId: 'Answer'
+    commentsByAnswerId: 'Comment'
     hello: 'String'
     post: 'Post'
     posts: 'Post'
@@ -207,6 +230,11 @@ export interface NexusGenArgTypes {
       postId: number; // Int!
       userId: string; // String!
     }
+    createComment: { // args
+      answerId: number; // Int!
+      body: string; // String!
+      userId: string; // String!
+    }
     createPost: { // args
       body: string; // String!
       choices: NexusGenInputs['choiceInput'][]; // [choiceInput!]!
@@ -218,6 +246,9 @@ export interface NexusGenArgTypes {
   Query: {
     answersByPostId: { // args
       postId: number; // Int!
+    }
+    commentsByAnswerId: { // args
+      id: number; // Int!
     }
     post: { // args
       id: number; // Int!
